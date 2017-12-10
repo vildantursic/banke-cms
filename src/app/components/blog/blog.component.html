@@ -1,0 +1,86 @@
+<div class="blog-page">
+  <app-sub-toolbar>
+    <div sub-toolbar-left>
+      <button mat-raised-button color="primary" (click)="goToRoute()">FAQ</button>
+    </div>
+    <div sub-toolbar-right>
+      <button mat-raised-button color="primary" (click)="addNewItem()" *ngIf="!addingMode">Add</button>
+      <button mat-raised-button color="primary" (click)="saveConfirm()" *ngIf="addingMode">Save</button>
+      <button mat-button color="warn" (click)="closeAddingItem()" *ngIf="addingMode">Close</button>
+    </div>
+  </app-sub-toolbar>
+
+  <div class="blog-cards" *ngIf="!addingMode">
+    <app-blog-card *ngFor="let blog of blogs" [item]="blog" (onEdit)="onEditClicked($event)" (onRemove)="removeConfirm($event)"></app-blog-card>
+  </div>
+  <div class="edit-blog" *ngIf="addingMode">
+    <mat-card class="add-card">
+      <div style="display: flex; flex-direction: row; height: 80vh; overflow: auto">
+        <div style="width: 70%; border-right: solid 1px #cdcdcd">
+
+          <mat-tab-group>
+            <mat-tab label="TEXT">
+
+              <div class="glob_ds-card-form">
+                <form>
+                  <mat-input-container class="ds-full-width">
+                    <input matInput #blogName maxlength="100" placeholder="Blog name" name="name" required [(ngModel)]="newBlog.name">
+                    <mat-hint align="end">{{blogName.value.length}} / 100</mat-hint>
+                  </mat-input-container>
+                </form>
+
+                <quill-editor [(ngModel)]="newBlog.body" [options]="editorOptions"></quill-editor>
+              </div>
+
+            </mat-tab>
+            <mat-tab label="IMAGES">
+
+              <div class="glob_ds-card-form" style="min-height: 240px; max-height: 240px; overflow: auto">
+                <input class="ds-full-width" type="file" id="files" name="files[]" multiple (change)="handleFileSelect($event)" />
+                <output style="display: flex; width: 100%; overflow: auto" id="list"></output>
+              </div>
+
+              <div class="glob_ds-card-form">
+                <mat-input-container style="width: 40%">
+                  <input matInput placeholder="Image URL" name="name" [(ngModel)]="newImageUrl">
+                </mat-input-container>
+                <mat-input-container style="width: 40%">
+                  <input matInput placeholder="Image description" name="name" [(ngModel)]="newImageDescription">
+                </mat-input-container>
+                <button mat-raised-button color="warn" (click)="addImage()">Add Image</button>
+                <mat-list>
+                  <mat-list-item *ngFor="let image of newBlog.images; let i = index">
+                    {{image.path || image.image}}
+                    <div class="ds-spacer"></div>
+                    <div class="icon">
+                      <mat-icon mat-list-icon matTooltip="Remove!" (click)="removeImage(i)">clear</mat-icon>
+                    </div>
+                  </mat-list-item>
+                </mat-list>
+              </div>
+
+            </mat-tab>
+          </mat-tab-group>
+
+        </div>
+        <div class="glob_ds-card-form" style="width: 30%; height: 100%;">
+          <!--<app-ds-selectable-tags [tags]="tags"></app-ds-selectable-tags>-->
+          <mat-input-container style="width: 50%">
+            <input matInput #tagName maxlength="30" placeholder="Tag name" name="name" [(ngModel)]="newTag">
+            <mat-hint align="end">{{tagName.value.length}} / 30</mat-hint>
+          </mat-input-container>
+          <button mat-raised-button color="warn" (click)="addTag()">Add Tag</button>
+          <mat-list>
+            <mat-list-item *ngFor="let tag of newBlog.tags; let i = index">
+              {{tag.name}}
+              <div class="ds-spacer"></div>
+              <div class="icon">
+                <mat-icon mat-list-icon matTooltip="Remove!" (click)="removeTag(i)">clear</mat-icon>
+              </div>
+            </mat-list-item>
+          </mat-list>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>

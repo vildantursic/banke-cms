@@ -1,0 +1,41 @@
+.file-upload {
+  width: 100%;
+  height: 70vh;
+  display: block;
+}
+
+.drop-zone {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 150px;
+  margin-left: -24px;
+  background: gray !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: white;
+}
+
+.input-file {
+  display: none;
+}
+
+.content {
+  h4 {
+    margin: 16px 0 0 0;
+  }
+  p {
+    margin: 0;
+  }
+}
+
+.no-content {
+  color: rgba(0,0,0,0.54) !important;
+}
+
+.ds-spacer {
+  flex: 1 1 auto;
+}
+

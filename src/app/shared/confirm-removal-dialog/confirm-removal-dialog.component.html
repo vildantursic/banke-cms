@@ -1,0 +1,10 @@
+<div class="content">
+  <mat-dialog-content>
+    <h2 mat-dialog-title>DO YOU WANT TO REMOVE THIS ITEM?</h2>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <span class="ds-dialog-spacer"></span>
+    <button mat-button mat-dialog-close [mat-dialog-close]="confirmRemoval(false)">Cancel</button>
+    <button mat-button color="warn" [mat-dialog-close]="confirmRemoval(true)">REMOVE</button>
+  </mat-dialog-actions>
+</div>

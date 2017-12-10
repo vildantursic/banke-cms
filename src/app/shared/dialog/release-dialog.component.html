@@ -1,0 +1,31 @@
+<div class="content">
+  <h2 mat-dialog-title>
+    {{data.title}}
+    <button style="float: right"
+            *ngIf="data?.items.length !== 0 && !isAllSelected()"
+            (click)="selectAllForRelease()" mat-raised-button color="primary">Select All</button>
+    <button style="float: right"
+            *ngIf="data?.items.length !== 0 && isAllSelected()"
+            (click)="deselectAllForRelease()" mat-raised-button color="primary">Deselect All</button>
+  </h2>
+  <mat-dialog-content>
+    <mat-list *ngIf="data?.items.length !== 0">
+      <app-ds-list-item
+        *ngFor="let item of data?.items; let i = index"
+        [selectable]="true"
+        [editable]="false"
+        [item]="item"
+        [index]="i">
+      </app-ds-list-item>
+    </mat-list>
+    <h4 class="no-items" mat-dialog-title="" *ngIf="data?.items.length === 0">
+      No items to realease
+    </h4>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <span class="ds-dialog-spacer"></span>
+    <button mat-button [mat-dialog-close]="saveData(false)">Cancel</button>
+    <!-- Can optionally provide a result for the closing dialog. -->
+    <button *ngIf="data?.items.length !== 0" mat-button color="warn" [mat-dialog-close]="saveData()" [disabled]="isAnySelected()">Release</button>
+  </mat-dialog-actions>
+</div>

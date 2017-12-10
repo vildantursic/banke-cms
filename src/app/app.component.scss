@@ -1,0 +1,18 @@
+.bs-scrolling-content {
+  width: 100%;
+}
+
+.ds-content {
+  margin: 0 50px;
+  height: 90vh;
+
+  @media (max-width: 1500px) {
+    margin: 0 50px;
+  }
+}
+
+.bs-loading {
+  position: absolute;
+  z-index: 100;
+  top: 0;
+}

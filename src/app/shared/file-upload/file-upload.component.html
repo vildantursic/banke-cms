@@ -1,0 +1,22 @@
+<div class="file-upload"
+     ngFileDropzone
+     (click)="onUploadClick()"
+     #dropzone>
+  <mat-list *ngFor="let file of files">
+    <mat-list-item [ngClass]="{'no-content': file?.name === '' && file?.exists === false}">
+      <div class="content" >
+        <h4>{{file.form}}</h4>
+        <p>{{file?.name !== '' ? file?.name : 'File name'}}</p>
+      </div>
+      <div class="ds-spacer"></div>
+      <p>{{file?.size !== '' ? file?.size : 'File size'}}</p>
+    </mat-list-item>
+  </mat-list>
+
+  <div class="drop-zone">
+
+    <input class="input-file" #uploadInput type="file" (change)="fileChange($event)" placeholder="Upload file" [accept]="type">
+    <p>Drag your file here, or click to upload</p>
+    <p>Image / Gif should be (Exercises: 640 x 640) 1024 x 512</p>
+  </div>
+</div>

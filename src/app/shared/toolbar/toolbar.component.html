@@ -1,0 +1,8 @@
+<mat-toolbar [color]="color">
+  <img [src]="userData?.image ? userData?.image : defaultImage" alt="" class="ds-toolbar-user-image">
+  <span>{{title}}</span>
+  <span class="ds-toolbar-spacer"></span>
+  <a mat-raised-button color="primary" (click)="onLogout.emit(true)">
+    Logout
+  </a>
+</mat-toolbar>
