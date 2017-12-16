@@ -1,18 +1,18 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
-import {Helpers} from '../../helpers/helper';
+import {BlogService} from '../../services/blog/blog.service';
+import {ConfirmationDialogComponent} from '../../shared/confirmation-dialog/confirmation-dialog.component';
 import {MessageService} from '../../services/utilities/message/message.service';
 import {MatDialog} from '@angular/material';
-import {FaqService} from '../../services/faq/faq.service';
+import {Helpers} from '../../helpers/helper';
 import {ConfirmRemovalDialogComponent} from '../../shared/confirm-removal-dialog/confirm-removal-dialog.component';
-import {ConfirmationDialogComponent} from '../../shared/confirmation-dialog/confirmation-dialog.component';
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
 
 @Component({
-  selector: 'app-faq',
-  templateUrl: './faq.component.html',
-  styleUrls: ['./faq.component.scss']
+  selector: 'app-forum',
+  templateUrl: './forum.component.html',
+  styleUrls: ['./forum.component.scss']
 })
-export class FaqComponent implements AfterViewInit {
+export class ForumComponent implements AfterViewInit {
 
   loading = true;
   addLoading = false;
@@ -22,11 +22,18 @@ export class FaqComponent implements AfterViewInit {
   addingMode = false;
   editMode = false;
 
-  faqs = [];
-  newFaq = {
-    question: '',
-    answer: '',
+  blogs = [];
+  newTag = '';
+  newImageUrl = '';
+  newImageDescription = '';
+  newBlog = {
+    name: '',
+    body: '',
+    images: [],
+    tags: []
   };
+  images = [];
+
   toolbarOptions = [  ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
     ['blockquote', 'code-block'],
     ['link', 'image'],
@@ -56,19 +63,19 @@ export class FaqComponent implements AfterViewInit {
     theme: 'snow'
   };
 
-  constructor(private faqService: FaqService,
+  constructor(private blogService: BlogService,
               private message: MessageService,
-              public router: Router,
               private dialog: MatDialog,
+              public router: Router,
               private helper: Helpers) { }
 
   ngAfterViewInit() {
-    this.getFaqs();
+    this.getBlogs();
   }
 
-  getFaqs(): void {
-    this.faqService.getFaqs().subscribe((response: any) => {
-      this.faqs = response.data;
+  getBlogs(): void {
+    this.blogService.getBlogs().subscribe((response: any) => {
+      this.blogs = response.data;
     });
   }
 
@@ -81,7 +88,7 @@ export class FaqComponent implements AfterViewInit {
     this.helper.setGlobalAddingMode();
     this.addingMode = true;
     this.editMode = true;
-    this.newFaq = this.faqs.filter((faq) => faq.id === id)[0];
+    this.newBlog = this.blogs.filter((blog) => blog.id === id)[0];
   }
 
   /**
@@ -103,9 +110,9 @@ export class FaqComponent implements AfterViewInit {
    * @param id
    */
   removeItem(id): void {
-    this.faqService.removeFaq(id).subscribe((response: any) => {
+    this.blogService.removeBlog(id).subscribe((response: any) => {
       this.message.show(response.hasOwnProperty('Message') ? response.Message : 'Error occurred');
-      this.getFaqs();
+      this.getBlogs();
     });
   }
 
@@ -127,33 +134,115 @@ export class FaqComponent implements AfterViewInit {
    */
   saveItem(): void {
 
-    console.log(this.newFaq);
     // this.newExercise.tags = this.helper.getSelectedTags(this.tags);
     if (this.validateInsert()) {
       this.message.show('Data is missing');
     } else {
 
       // this.addLoading = true;
+      this.newBlog.tags = this.newBlog.tags.map((tag) => { return tag.name; });
 
       if (this.editMode) {
-        this.faqService.editFaq(this.newFaq['id'], this.newFaq).subscribe((response: any) => {
+        console.log(this.newBlog);
+        delete this.newBlog['slug'];
+        delete this.newBlog['date'];
+        this.newBlog.images = this.newBlog.images.map((image) => {
+          Object.defineProperty(image, 'image', {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: image.path
+          });
+          delete image.path;
+          return image;
+        });
+
+        this.blogService.editBlog(this.newBlog['id'], this.newBlog).subscribe((response: any) => {
           console.log(response);
+          // if (this.images.length !== 0) {
+          //   this.uploadImage();
+          // }
           this.message.show(response.hasOwnProperty('Message') ? response.Message : 'Error occurred');
-          this.getFaqs();
+          this.getBlogs();
           this.deactivateAddingMode();
         });
       } else {
-        this.faqService.createFaq(this.newFaq).subscribe((response: any) => {
+        this.blogService.createBlog(this.newBlog).subscribe((response: any) => {
           console.log(response);
+          // if (this.images.length !== 0) {
+          //   this.uploadImage();
+          // }
           this.message.show(response.hasOwnProperty('Message') ? response.Message : 'Error occurred');
-          this.getFaqs();
+          this.getBlogs();
           this.deactivateAddingMode();
         });
       }
     }
   }
 
-  goToRoute(): void {
+  handleFileSelect(evt) {
+    const files = evt.target.files; // FileList object
+
+    // Loop through the FileList and render image files as thumbnails.
+    for (let i = 0, f; f = files[i]; i++) {
+      this.images.push(f);
+
+      // Only process image files.
+      if (!f.type.match('image.*')) {
+        continue;
+      }
+
+      const reader = new FileReader();
+
+      // Closure to capture the file information.
+      reader.onload = (function(theFile) {
+        return (e) => {
+          // Render thumbnail.
+          const span = document.createElement('span');
+          span.innerHTML =
+            `<img class="thumb" style=" height: 175px; border: 1px solid #000; margin: 10px 5px 0 0;" src="${e.target.result}"/>`;
+          document.getElementById('list').insertBefore(span, null);
+        };
+      })(f);
+
+      // Read in the image file as a data URL.
+      reader.readAsDataURL(f);
+    }
+  }
+
+  addTag(): void {
+    this.newBlog.tags.push({
+      name: this.newTag
+    });
+
+    this.newTag = '';
+  }
+  removeTag(i): void {
+    this.newBlog.tags.splice(i, 1);
+  }
+
+  addImage(): void {
+    this.newBlog.images.push({
+      image: this.newImageUrl,
+      description: this.newImageDescription
+    });
+
+    this.newImageUrl = '';
+    this.newImageDescription = '';
+  }
+  removeImage(i): void {
+    this.newBlog.images.splice(i, 1);
+  }
+  uploadImage(): void {
+    const formData = new FormData();
+    formData.append('image', this.images[0]);
+
+    this.blogService.uploadImage(formData).subscribe((response: any) => {
+      console.log(response);
+    });
+  }
+
+  goToRoute(routeLink): void {
     if (sessionStorage.getItem('adding') === 'true') {
       this.confirmDialogGoFromRoute = this.dialog.open(ConfirmationDialogComponent, {
         data: {
@@ -164,11 +253,11 @@ export class FaqComponent implements AfterViewInit {
 
       this.confirmDialogGoFromRoute.afterClosed().subscribe(result => {
         if (result) {
-          this.router.navigate(['blog']);
+          this.router.navigate([routeLink]);
         }
       });
     } else {
-      this.router.navigate(['blog']);
+      this.router.navigate([routeLink]);
     }
   }
 
@@ -180,8 +269,8 @@ export class FaqComponent implements AfterViewInit {
   }
 
   validateInsert(): boolean {
-    return this.newFaq.answer === '' ||
-           this.newFaq.question === '';
+    return this.newBlog.tags.length === 0 ||
+      this.newBlog.name === '';
   }
 
   deactivateAddingMode(): void {
@@ -193,9 +282,11 @@ export class FaqComponent implements AfterViewInit {
   }
 
   clearInputs(): void {
-    this.newFaq = {
-      question: '',
-      answer: ''
+    this.newBlog = {
+      name: '',
+      body: '',
+      images: [],
+      tags: []
     };
   }
 }

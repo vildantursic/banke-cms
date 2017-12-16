@@ -1,11 +1,11 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, NgModel, ReactiveFormsModule } from '@angular/forms';
 
 import { DndModule } from 'ng2-dnd';
-// import { QuillEditorModule } from 'ngx-quill-editor';
+import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
@@ -25,7 +25,8 @@ import {
   SystemService,
   BlogService,
   NewsletterService,
-  FaqService
+  FaqService,
+  PdfService
 } from './services/services';
 
 import { LoginComponent } from './components/login/login.component';
@@ -33,7 +34,8 @@ import { HomeComponent } from './components/home/home.component';
 import { BlogComponent } from './components/blog/blog.component';
 
 import { AppRoutingModule } from './app-routing.module';
-import { FaqComponent } from './components/faq/faq.component';
+import { PdfUploadComponent } from './components/pdf-upload/pdf-upload.component';
+import { ForumComponent } from './components/forum/forum.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,8 @@ import { FaqComponent } from './components/faq/faq.component';
     HomeComponent,
     BlogComponent,
     LoginComponent,
-    FaqComponent,
+    PdfUploadComponent,
+    ForumComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ang4-seo-pre'}),
@@ -50,11 +53,12 @@ import { FaqComponent } from './components/faq/faq.component';
     MaterialModule,
     BrowserAnimationsModule,
     NoopAnimationsModule,
-    HttpModule,
+    HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
     DndModule.forRoot(),
-    // QuillEditorModule
+    FroalaEditorModule.forRoot(),
+    FroalaViewModule.forRoot()
   ],
   providers: [
     NgModel,
@@ -69,7 +73,8 @@ import { FaqComponent } from './components/faq/faq.component';
     SystemService,
     BlogService,
     NewsletterService,
-    FaqService
+    FaqService,
+    PdfService
   ],
   bootstrap: [AppComponent],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],

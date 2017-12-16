@@ -4,8 +4,9 @@ import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angula
   selector: 'app-blog-card',
   styles: [`
     :host {
-      display: inline-block;
+      display: flex;
       margin: 10px;
+      float: left;
       flex-grow: 1;
       height:300px;
       width: calc(100% * (1/4) - 20px);

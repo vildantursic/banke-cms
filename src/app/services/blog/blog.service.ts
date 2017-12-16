@@ -17,6 +17,14 @@ export class BlogService {
   }
 
   /**
+   * Gets array of images
+   * @returns {Observable<any>}
+   */
+  getImages(): Observable<any> {
+    return this.service.get(`blog/images`);
+  }
+
+  /**
    * Gets array of suggested blogs
    * @returns {Observable<any>}
    */

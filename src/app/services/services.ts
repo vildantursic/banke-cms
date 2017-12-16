@@ -4,6 +4,7 @@ import { SystemService } from './system/system.service';
 import { BlogService } from './blog/blog.service';
 import { NewsletterService } from './newsletter/newsletter.service';
 import { FaqService } from './faq/faq.service';
+import { PdfService } from './pdf/pdf.service';
 
 import { HelperService } from './helpers/helper.service';
 
@@ -18,4 +19,5 @@ export {
   BlogService,
   NewsletterService,
   FaqService,
+  PdfService
 };

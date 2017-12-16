@@ -3,3 +3,11 @@ body {
   margin: 0;
   padding: 0;
 }
+
+.glob_ds-card-form {
+  padding: 15px;
+}
+
+.add-card {
+  padding: 0 !important;
+}

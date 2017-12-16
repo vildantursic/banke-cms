@@ -1,0 +1,26 @@
+<div class="blog-page">
+  <app-sub-toolbar>
+    <div sub-toolbar-left>
+      <button mat-raised-button color="primary" (click)="goToRoute('pdf-upload')">PDF UPLOAD</button>
+      <button mat-raised-button color="primary" (click)="goToRoute('forum')">FORUM</button>
+      <button mat-raised-button color="primary" (click)="goToRoute('blog')">BLOG</button>
+    </div>
+    <div sub-toolbar-right>
+      <button mat-raised-button color="primary" (click)="addNewItem()" *ngIf="!addingMode">Add</button>
+      <button mat-raised-button color="primary" (click)="saveConfirm()" *ngIf="addingMode">Save</button>
+      <button mat-button color="warn" (click)="closeAddingItem()" *ngIf="addingMode">Close</button>
+    </div>
+  </app-sub-toolbar>
+
+  <div class="blog-cards" *ngIf="!addingMode">
+    HERE GOES FORUM
+  </div>
+  <div class="edit-blog" *ngIf="addingMode">
+    <mat-card class="add-card">
+      <div class="glob_ds-card-form" style="min-height: 240px; max-height: 240px; overflow: auto">
+        <input class="ds-full-width" type="file" id="files" name="files[]" multiple (change)="handleFileSelect($event)" />
+        <output style="display: flex; width: 100%; overflow: auto" id="list"></output>
+      </div>
+    </mat-card>
+  </div>
+</div>

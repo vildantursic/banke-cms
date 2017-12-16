@@ -1,7 +1,9 @@
 <div class="blog-page">
   <app-sub-toolbar>
     <div sub-toolbar-left>
-      <button mat-raised-button color="primary" (click)="goToRoute()">FAQ</button>
+      <button mat-raised-button color="primary" (click)="goToRoute('pdf-upload')">PDF UPLOAD</button>
+      <button mat-raised-button color="primary" (click)="goToRoute('forum')">FORUM</button>
+      <button mat-raised-button color="primary" (click)="goToRoute('blog')">BLOG</button>
     </div>
     <div sub-toolbar-right>
       <button mat-raised-button color="primary" (click)="addNewItem()" *ngIf="!addingMode">Add</button>
@@ -29,15 +31,21 @@
                   </mat-input-container>
                 </form>
 
-                <quill-editor [(ngModel)]="newBlog.body" [options]="editorOptions"></quill-editor>
+                <div [froalaEditor]>Hello, Froala!</div>
               </div>
 
             </mat-tab>
             <mat-tab label="IMAGES">
 
-              <div class="glob_ds-card-form" style="min-height: 240px; max-height: 240px; overflow: auto">
+              <div class="glob_ds-card-form">
                 <input class="ds-full-width" type="file" id="files" name="files[]" multiple (change)="handleFileSelect($event)" />
-                <output style="display: flex; width: 100%; overflow: auto" id="list"></output>
+                <!--<output style="display: flex; width: 100%; overflow: auto" id="list"></output>-->
+                <div class="images-from-server">
+                  <div *ngFor="let image of images; let i = index" class="image-block">
+                    <mat-checkbox [(ngModel)]="image.checked" (change)="choseImage(i)">Check me!</mat-checkbox>
+                    <img [src]="image.path" alt="">
+                  </div>
+                </div>
               </div>
 
               <div class="glob_ds-card-form">

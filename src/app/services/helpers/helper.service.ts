@@ -1,4 +1,4 @@
-import { Headers } from '@angular/http';
+import { HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 
 export class HelperService {
@@ -34,7 +34,7 @@ export class HelperService {
    * @param auth
    * @returns headers
    */
-  createAuthorizationHeader(headers: Headers, auth = true): any {
+  createAuthorizationHeader(headers: HttpHeaders, auth = true): any {
     // if (auth) {
       headers.append('Content-type', 'application/json');
       headers.append('authorization', 'Bearer ' + localStorage.getItem('access_token'));

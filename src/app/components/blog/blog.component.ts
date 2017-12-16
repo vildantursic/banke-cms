@@ -1,11 +1,12 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
-import {BlogService} from "../../services/blog/blog.service";
-import {ConfirmationDialogComponent} from "../../shared/confirmation-dialog/confirmation-dialog.component";
-import {MessageService} from "../../services/utilities/message/message.service";
-import {MatDialog} from "@angular/material";
-import {Helpers} from "../../helpers/helper";
-import {ConfirmRemovalDialogComponent} from "../../shared/confirm-removal-dialog/confirm-removal-dialog.component";
-import {Router} from "@angular/router";
+import {BlogService} from '../../services/blog/blog.service';
+import {ConfirmationDialogComponent} from '../../shared/confirmation-dialog/confirmation-dialog.component';
+import {MessageService} from '../../services/utilities/message/message.service';
+import {MatDialog} from '@angular/material';
+import {Helpers} from '../../helpers/helper';
+import {ConfirmRemovalDialogComponent} from '../../shared/confirm-removal-dialog/confirm-removal-dialog.component';
+import {Router} from '@angular/router';
+import {log} from "util";
 
 @Component({
   selector: 'app-blog',
@@ -71,11 +72,32 @@ export class BlogComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.getBlogs();
+    this.getImages();
   }
 
   getBlogs(): void {
     this.blogService.getBlogs().subscribe((response: any) => {
       this.blogs = response.data;
+    });
+  }
+  getImages(): void {
+    this.blogService.getImages().subscribe((response: any) => {
+      this.images = response.data.map(function (image) {
+        return{
+          checked: false,
+          path: image,
+        };
+      });
+      console.log(this.images)
+    });
+  }
+  choseImage(i) {
+    this.images.map(function (image, index) {
+      if (index === i) {
+        return image.checked = true;
+      } else {
+        return image.checked = false;
+      }
     });
   }
 
@@ -242,7 +264,7 @@ export class BlogComponent implements AfterViewInit {
     });
   }
 
-  goToRoute(): void {
+  goToRoute(routeLink): void {
     if (sessionStorage.getItem('adding') === 'true') {
       this.confirmDialogGoFromRoute = this.dialog.open(ConfirmationDialogComponent, {
         data: {
@@ -253,11 +275,11 @@ export class BlogComponent implements AfterViewInit {
 
       this.confirmDialogGoFromRoute.afterClosed().subscribe(result => {
         if (result) {
-          this.router.navigate(['faq']);
+          this.router.navigate([routeLink]);
         }
       });
     } else {
-      this.router.navigate(['faq']);
+      this.router.navigate([routeLink]);
     }
   }
 
