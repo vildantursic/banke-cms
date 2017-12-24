@@ -48,7 +48,6 @@ export class HelperService {
    * @returns response
    */
   checkDataValidity(response): any {
-    console.log(response);
     if (response.hasOwnProperty('status')) {
       if (response.status === 400) {
         setTimeout(() => {

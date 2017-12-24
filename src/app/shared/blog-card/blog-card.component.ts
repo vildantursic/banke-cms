@@ -60,8 +60,8 @@ import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angula
       </mat-card-content>
       <mat-card-actions>
         <div class="glob_ds-card-form" style="display: flex; align-items: center; justify-content: flex-end">
-          <button mat-raised-button color="primary" (click)="onEdit.emit(item.id)">EDIT</button>
-          <button mat-raised-button color="warn" (click)="onRemove.emit(item.id)">REMOVE</button>
+          <button mat-raised-button color="primary" (click)="onEdit.emit(item.slug)">EDIT</button>
+          <button mat-raised-button color="warn" (click)="onRemove.emit(item.slug)">REMOVE</button>
         </div>
       </mat-card-actions>
     </mat-card>

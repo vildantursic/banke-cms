@@ -13,7 +13,7 @@ export class BlogService {
    * @returns {Observable<any>}
    */
   getBlogs(): Observable<any> {
-    return this.service.get(`blog/posts`);
+    return this.service.get(`blog`);
   }
 
   /**
@@ -52,21 +52,21 @@ export class BlogService {
 
   /**
    * Edit blog
-   * @param id
+   * @param slug
    * @param data
    * @returns {Observable<any>}
    */
-  editBlog(id: number, data): Observable<any> {
-    return this.service.put(`blog/${id}`, data);
+  editBlog(slug: string, data): Observable<any> {
+    return this.service.put(`blog/${slug}`, data);
   }
 
   /**
    * Remove blog
-   * @param id
+   * @param slug
    * @returns {Observable<any>}
    */
-  removeBlog(id: number): Observable<any> {
-    return this.service.delete(`blog/${id}`);
+  removeBlog(slug: string): Observable<any> {
+    return this.service.delete(`blog/${slug}`);
   }
 
   /**
