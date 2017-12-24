@@ -31,7 +31,7 @@
                   </mat-input-container>
                 </form>
 
-                <div [froalaEditor]>Hello, Froala!</div>
+                <div [froalaEditor] [(froalaModel)]="newBlog.content"></div>
               </div>
 
             </mat-tab>
@@ -58,7 +58,7 @@
                 <button mat-raised-button color="warn" (click)="addImage()">Add Image</button>
                 <mat-list>
                   <mat-list-item *ngFor="let image of newBlog.images; let i = index">
-                    {{image.path || image.image}}
+                    {{image.path}}
                     <div class="ds-spacer"></div>
                     <div class="icon">
                       <mat-icon mat-list-icon matTooltip="Remove!" (click)="removeImage(i)">clear</mat-icon>
@@ -80,7 +80,7 @@
           <button mat-raised-button color="warn" (click)="addTag()">Add Tag</button>
           <mat-list>
             <mat-list-item *ngFor="let tag of newBlog.tags; let i = index">
-              {{tag.name}}
+              {{tag}}
               <div class="ds-spacer"></div>
               <div class="icon">
                 <mat-icon mat-list-icon matTooltip="Remove!" (click)="removeTag(i)">clear</mat-icon>
