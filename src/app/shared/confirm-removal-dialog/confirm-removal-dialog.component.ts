@@ -9,7 +9,7 @@ import { MAT_DIALOG_DATA } from '@angular/material';
 export class ConfirmRemovalDialogComponent {
 
   // TODO fix removal for canceling remove request
-  constructor(@Inject(MAT_DIALOG_DATA) public data: { id: number }) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: { slug: number }) { }
 
   confirmRemoval(confirm): boolean {
     return !!confirm;

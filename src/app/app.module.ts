@@ -1,7 +1,7 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import {HttpClientJsonpModule, HttpClientModule} from '@angular/common/http';
 import { FormsModule, NgModel, ReactiveFormsModule } from '@angular/forms';
 
 import { DndModule } from 'ng2-dnd';
@@ -36,6 +36,7 @@ import { BlogComponent } from './components/blog/blog.component';
 import { AppRoutingModule } from './app-routing.module';
 import { PdfUploadComponent } from './components/pdf-upload/pdf-upload.component';
 import { ForumComponent } from './components/forum/forum.component';
+import {ShareButtonsModule} from "ngx-sharebuttons";
 
 @NgModule({
   declarations: [
@@ -58,7 +59,9 @@ import { ForumComponent } from './components/forum/forum.component';
     ReactiveFormsModule,
     DndModule.forRoot(),
     FroalaEditorModule.forRoot(),
-    FroalaViewModule.forRoot()
+    FroalaViewModule.forRoot(),
+    HttpClientJsonpModule,
+    ShareButtonsModule.forRoot()
   ],
   providers: [
     NgModel,

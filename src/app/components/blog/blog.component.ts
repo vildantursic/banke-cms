@@ -28,41 +28,13 @@ export class BlogComponent implements AfterViewInit {
   newImageUrl = '';
   newImageDescription = '';
   newBlog = {
+    slug: '',
     name: '',
-    body: '',
+    content: 'Your text goes here',
     images: [],
     tags: []
   };
   images = [];
-
-  toolbarOptions = [  ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-    ['blockquote', 'code-block'],
-    ['link', 'image'],
-
-    [{ 'header': 1 }, { 'header': 2 }],               // custom button values
-    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-    [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
-    [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
-    [{ 'direction': 'rtl' }],                         // text direction
-
-    [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-
-    [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-    [{ 'font': [] }],
-    [{ 'align': [] }],
-
-    ['clean']   ];
-  editorOptions = {
-    modules: {
-      toolbar: this.toolbarOptions,
-      clipboard: {
-        matchVisual: false
-      }
-    },
-    placeholder: 'Write blog text here...',
-    theme: 'snow'
-  };
 
   constructor(private blogService: BlogService,
               private message: MessageService,
@@ -77,7 +49,7 @@ export class BlogComponent implements AfterViewInit {
 
   getBlogs(): void {
     this.blogService.getBlogs().subscribe((response: any) => {
-      this.blogs = response.data;
+      this.blogs = response;
     });
   }
   getImages(): void {
@@ -88,7 +60,6 @@ export class BlogComponent implements AfterViewInit {
           path: image,
         };
       });
-      console.log(this.images)
     });
   }
   choseImage(i) {
@@ -106,33 +77,33 @@ export class BlogComponent implements AfterViewInit {
     this.addingMode = true;
   }
 
-  onEditClicked(id): void {
+  onEditClicked(slug): void {
     this.helper.setGlobalAddingMode();
     this.addingMode = true;
     this.editMode = true;
-    this.newBlog = this.blogs.filter((blog) => blog.id === id)[0];
+    this.newBlog = this.blogs.filter((blog) => blog.slug === slug)[0];
   }
 
   /**
    * Opens item removal confirmation dialog, passes id and reacts on selected dialog option (remove / cancel)
-   * @param id
+   * @param slug
    */
-  removeConfirm(id): void {
+  removeConfirm(slug): void {
     this.confirmRemoveDialog = this.dialog.open(ConfirmRemovalDialogComponent);
 
     this.confirmRemoveDialog.afterClosed().subscribe(result => {
       if (result) {
-        this.removeItem(id);
+        this.removeItem(slug);
       }
     });
   }
 
   /**
    * Remove item for passed id
-   * @param id
+   * @param slug
    */
-  removeItem(id): void {
-    this.blogService.removeBlog(id).subscribe((response: any) => {
+  removeItem(slug): void {
+    this.blogService.removeBlog(slug).subscribe((response: any) => {
       this.message.show(response.hasOwnProperty('Message') ? response.Message : 'Error occurred');
       this.getBlogs();
     });
@@ -156,34 +127,13 @@ export class BlogComponent implements AfterViewInit {
    */
   saveItem(): void {
 
-    // this.newExercise.tags = this.helper.getSelectedTags(this.tags);
     if (this.validateInsert()) {
       this.message.show('Data is missing');
     } else {
 
-      // this.addLoading = true;
-      this.newBlog.tags = this.newBlog.tags.map((tag) => { return tag.name; });
-
       if (this.editMode) {
-        console.log(this.newBlog);
-        delete this.newBlog['slug'];
-        delete this.newBlog['date'];
-        this.newBlog.images = this.newBlog.images.map((image) => {
-          Object.defineProperty(image, 'image', {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: image.path
-          });
-          delete image.path;
-          return image;
-        });
-
-        this.blogService.editBlog(this.newBlog['id'], this.newBlog).subscribe((response: any) => {
+        this.blogService.editBlog(this.newBlog['slug'], this.newBlog).subscribe((response: any) => {
           console.log(response);
-          // if (this.images.length !== 0) {
-          //   this.uploadImage();
-          // }
           this.message.show(response.hasOwnProperty('Message') ? response.Message : 'Error occurred');
           this.getBlogs();
           this.deactivateAddingMode();
@@ -191,9 +141,6 @@ export class BlogComponent implements AfterViewInit {
       } else {
         this.blogService.createBlog(this.newBlog).subscribe((response: any) => {
           console.log(response);
-          // if (this.images.length !== 0) {
-          //   this.uploadImage();
-          // }
           this.message.show(response.hasOwnProperty('Message') ? response.Message : 'Error occurred');
           this.getBlogs();
           this.deactivateAddingMode();
@@ -233,9 +180,7 @@ export class BlogComponent implements AfterViewInit {
   }
 
   addTag(): void {
-    this.newBlog.tags.push({
-      name: this.newTag
-    });
+    this.newBlog.tags.push(this.newTag);
 
     this.newTag = '';
   }
@@ -245,7 +190,7 @@ export class BlogComponent implements AfterViewInit {
 
   addImage(): void {
     this.newBlog.images.push({
-      image: this.newImageUrl,
+      path: this.newImageUrl,
       description: this.newImageDescription
     });
 
@@ -305,8 +250,9 @@ export class BlogComponent implements AfterViewInit {
 
   clearInputs(): void {
     this.newBlog = {
+      slug: '',
       name: '',
-      body: '',
+      content: '',
       images: [],
       tags: []
     };
