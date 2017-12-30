@@ -8,7 +8,7 @@ import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angula
       margin: 10px;
       float: left;
       flex-grow: 1;
-      height:300px;
+      height: auto;
       width: calc(100% * (1/4) - 20px);
     }
     @media (max-width: 1024px) {
@@ -49,12 +49,12 @@ import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angula
   template: `
     <mat-card>
       <div class="card-image">
-        <img mat-card-image [src]="item?.images.length !== 0 ? item?.images[0]?.path : '' " alt="">
+        <img mat-card-image [src]="item?.image.length !== 0 ? item?.image[0] : '' " alt="">
       </div>
       <mat-card-content>
         <div class="glob_ds-card-form">
           <p>
-            {{item?.name}}
+            {{item?.title}}
           </p>
         </div>
       </mat-card-content>
