@@ -26,7 +26,7 @@
               <div class="glob_ds-card-form">
                 <form>
                   <mat-input-container class="ds-full-width">
-                    <input matInput #blogName maxlength="100" placeholder="Blog name" name="name" required [(ngModel)]="newBlog.name">
+                    <input matInput #blogName maxlength="100" placeholder="Blog title" name="title" required [(ngModel)]="newBlog.title">
                     <mat-hint align="end">{{blogName.value.length}} / 100</mat-hint>
                   </mat-input-container>
                 </form>
@@ -52,13 +52,10 @@
                 <mat-input-container style="width: 40%">
                   <input matInput placeholder="Image URL" name="name" [(ngModel)]="newImageUrl">
                 </mat-input-container>
-                <mat-input-container style="width: 40%">
-                  <input matInput placeholder="Image description" name="name" [(ngModel)]="newImageDescription">
-                </mat-input-container>
                 <button mat-raised-button color="warn" (click)="addImage()">Add Image</button>
                 <mat-list>
-                  <mat-list-item *ngFor="let image of newBlog.images; let i = index">
-                    {{image.path}}
+                  <mat-list-item *ngFor="let image of newBlog.image; let i = index">
+                    {{image}}
                     <div class="ds-spacer"></div>
                     <div class="icon">
                       <mat-icon mat-list-icon matTooltip="Remove!" (click)="removeImage(i)">clear</mat-icon>
@@ -77,13 +74,13 @@
             <input matInput #tagName maxlength="30" placeholder="Tag name" name="name" [(ngModel)]="newTag">
             <mat-hint align="end">{{tagName.value.length}} / 30</mat-hint>
           </mat-input-container>
-          <button mat-raised-button color="warn" (click)="addTag()">Add Tag</button>
+          <button mat-raised-button color="warn" (click)="addCategory()">Add Tag</button>
           <mat-list>
-            <mat-list-item *ngFor="let tag of newBlog.tags; let i = index">
-              {{tag}}
+            <mat-list-item *ngFor="let category of newBlog.categories; let i = index">
+              {{category}}
               <div class="ds-spacer"></div>
               <div class="icon">
-                <mat-icon mat-list-icon matTooltip="Remove!" (click)="removeTag(i)">clear</mat-icon>
+                <mat-icon mat-list-icon matTooltip="Remove!" (click)="removeCategory(i)">clear</mat-icon>
               </div>
             </mat-list-item>
           </mat-list>

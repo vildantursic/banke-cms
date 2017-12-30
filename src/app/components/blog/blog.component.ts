@@ -29,10 +29,10 @@ export class BlogComponent implements AfterViewInit {
   newImageDescription = '';
   newBlog = {
     slug: '',
-    name: '',
-    content: 'Your text goes here',
-    images: [],
-    tags: []
+    title: '',
+    content: '',
+    image: [],
+    categories: []
   };
   images = [];
 
@@ -50,6 +50,7 @@ export class BlogComponent implements AfterViewInit {
   getBlogs(): void {
     this.blogService.getBlogs().subscribe((response: any) => {
       this.blogs = response;
+      console.log(this.blogs)
     });
   }
   getImages(): void {
@@ -179,26 +180,23 @@ export class BlogComponent implements AfterViewInit {
     }
   }
 
-  addTag(): void {
-    this.newBlog.tags.push(this.newTag);
+  addCategory(): void {
+    this.newBlog.categories.push(this.newTag);
 
     this.newTag = '';
   }
-  removeTag(i): void {
-    this.newBlog.tags.splice(i, 1);
+  removeCategory(i): void {
+    this.newBlog.categories.splice(i, 1);
   }
 
   addImage(): void {
-    this.newBlog.images.push({
-      path: this.newImageUrl,
-      description: this.newImageDescription
-    });
+    this.newBlog.image.push(this.newImageUrl);
 
     this.newImageUrl = '';
     this.newImageDescription = '';
   }
   removeImage(i): void {
-    this.newBlog.images.splice(i, 1);
+    this.newBlog.image.splice(i, 1);
   }
   uploadImage(): void {
     const formData = new FormData();
@@ -236,8 +234,8 @@ export class BlogComponent implements AfterViewInit {
   }
 
   validateInsert(): boolean {
-    return this.newBlog.tags.length === 0 ||
-           this.newBlog.name === '';
+    return this.newBlog.categories.length === 0 ||
+           this.newBlog.title === '';
   }
 
   deactivateAddingMode(): void {
@@ -251,10 +249,10 @@ export class BlogComponent implements AfterViewInit {
   clearInputs(): void {
     this.newBlog = {
       slug: '',
-      name: '',
+      title: '',
       content: '',
-      images: [],
-      tags: []
+      image: [],
+      categories: []
     };
   }
 }
