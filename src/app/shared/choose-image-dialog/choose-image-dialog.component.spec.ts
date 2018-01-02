@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ForumComponent } from './forum.component';
+import { ChooseImageDialogComponent } from './choose-image-dialog.component';
 
-describe('ForumComponent', () => {
-  let component: ForumComponent;
-  let fixture: ComponentFixture<ForumComponent>;
+describe('ChooseImageDialogComponent', () => {
+  let component: ChooseImageDialogComponent;
+  let fixture: ComponentFixture<ChooseImageDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ForumComponent ]
+      declarations: [ ChooseImageDialogComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ForumComponent);
+    fixture = TestBed.createComponent(ChooseImageDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

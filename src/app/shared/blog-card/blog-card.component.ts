@@ -27,7 +27,8 @@ import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angula
       overflow: hidden;
     }
     mat-card-content {
-      height: 30px;
+      height: 45px;
+      overflow: hidden;
     }
     .card-image {
       width: 100%;
@@ -38,7 +39,7 @@ import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angula
       justify-content: center;
     }
     .card-image img {
-      width: auto;
+      width: 100%;
       margin: auto;
     }
     .mat-card-image {

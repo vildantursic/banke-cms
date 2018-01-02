@@ -1,0 +1,45 @@
+.content {
+  min-width: 300px;
+}
+
+.ds-dialog-spacer {
+  flex: 1 1 auto;
+}
+
+.images-from-server {
+  width: 100%;
+  height: 80vh;
+  overflow: auto;
+  display: block;
+  flex-direction: row;
+
+  .image-block {
+    float: left;
+    display: flex;
+    flex-direction: column;
+    width: calc((100% / 5) - 30px);
+    height: 300px;
+    margin: 15px;
+    overflow: hidden;
+    border: solid 1px #cdcdcd;
+    align-items: center;
+    justify-content: center;
+    padding-top: 10px;
+
+    .checkbox-section {
+      height: 10%;
+    }
+
+    .image-section {
+      height: 90%;
+      background-color: #cdcdcd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      img {
+        width: 100%;
+      }
+    }
+  }
+}

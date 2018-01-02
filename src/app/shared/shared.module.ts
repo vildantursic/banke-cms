@@ -16,6 +16,7 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
 import { DsSelectableTagsComponent } from './ds-selectable-tags/ds-selectable-tags.component';
 import { ConfirmRemovalDialogComponent } from './confirm-removal-dialog/confirm-removal-dialog.component';
 import { BlogCardComponent } from './blog-card/blog-card.component';
+import { ChooseImageDialogComponent } from './choose-image-dialog/choose-image-dialog.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { BlogCardComponent } from './blog-card/blog-card.component';
     DsSelectableTagsComponent,
     ConfirmRemovalDialogComponent,
     BlogCardComponent,
+    ChooseImageDialogComponent,
   ],
   exports: [
     SearchBoxComponent,
@@ -48,6 +50,7 @@ import { BlogCardComponent } from './blog-card/blog-card.component';
     DsSelectableTagsComponent,
     ConfirmRemovalDialogComponent,
     BlogCardComponent,
+    ChooseImageDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -59,6 +62,7 @@ import { BlogCardComponent } from './blog-card/blog-card.component';
     ReleaseDialogComponent,
     ConfirmationDialogComponent,
     ConfirmRemovalDialogComponent,
+    ChooseImageDialogComponent,
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })

@@ -1,0 +1,23 @@
+<div class="content">
+  <mat-dialog-content>
+    <div>
+      <input type="file" (change)="fileChange($event)" placeholder="Upload file" accept=".jpg,.jpeg,.png">
+    </div>
+
+    <div class="images-from-server">
+      <div *ngFor="let image of images; let i = index" class="image-block">
+        <div class="checkbox-section">
+          <mat-checkbox [(ngModel)]="image.checked" (change)="choseImage(i)">Check me!</mat-checkbox>
+        </div>
+        <div class="image-section">
+          <img [src]="image.path" alt="">
+        </div>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <span class="ds-dialog-spacer"></span>
+    <button mat-button mat-dialog-close >Cancel</button>
+    <button mat-button color="warn" [mat-dialog-close]="saveData()">Save</button>
+  </mat-dialog-actions>
+</div>

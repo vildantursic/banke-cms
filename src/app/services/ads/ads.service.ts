@@ -3,23 +3,23 @@ import { MainService } from '../main.service';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
-export class PdfService {
+export class AdsService {
 
   constructor(private service: MainService) { }
 
   /**
-   * Gets pdf
+   * Gets ads
    * @returns {Observable<any>}
    */
-  getPDF(): Observable<any> {
-    return this.service.get(`pdf`);
+  getAds(): Observable<any> {
+    return this.service.get(`ads`);
   }
 
   /**
-   * Upload data
+   * Upload ads
    * @returns {Observable<any>}
    */
-  uploadPDF(data): Observable<any> {
-    return this.service.post(`pdf`, data);
+  uploadAds(ads): Observable<any> {
+    return this.service.post(`ads`, ads);
   }
 }

@@ -17,14 +17,6 @@ export class BlogService {
   }
 
   /**
-   * Gets array of images
-   * @returns {Observable<any>}
-   */
-  getImages(): Observable<any> {
-    return this.service.get(`blog/images`);
-  }
-
-  /**
    * Gets array of suggested blogs
    * @returns {Observable<any>}
    */
@@ -68,14 +60,4 @@ export class BlogService {
   removeBlog(slug: string): Observable<any> {
     return this.service.delete(`blog/${slug}`);
   }
-
-  /**
-   * Upload image
-   * @param data
-   * @returns {Observable<any>}
-   */
-  uploadImage(data): Observable<any> {
-    return this.service.post(`blog/image`, data);
-  }
-
 }
