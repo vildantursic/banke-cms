@@ -2,7 +2,7 @@
   <app-sub-toolbar>
     <div sub-toolbar-left>
       <button mat-raised-button color="primary" (click)="goToRoute('pdf-upload')">PDF UPLOAD</button>
-      <button mat-raised-button color="primary" (click)="goToRoute('forum')">FORUM</button>
+      <button mat-raised-button color="primary" (click)="goToRoute('ads')">ADS</button>
       <button mat-raised-button color="primary" (click)="goToRoute('blog')">BLOG</button>
     </div>
     <div sub-toolbar-right>
@@ -38,14 +38,7 @@
             <mat-tab label="IMAGES">
 
               <div class="glob_ds-card-form">
-                <input class="ds-full-width" type="file" id="files" name="files[]" multiple (change)="handleFileSelect($event)" />
-                <!--<output style="display: flex; width: 100%; overflow: auto" id="list"></output>-->
-                <div class="images-from-server">
-                  <div *ngFor="let image of images; let i = index" class="image-block">
-                    <mat-checkbox [(ngModel)]="image.checked" (change)="choseImage(i)">Check me!</mat-checkbox>
-                    <img [src]="image.path" alt="">
-                  </div>
-                </div>
+                <button mat-raised-button color="primary" (click)="chooseImage()">Choose image</button>
               </div>
 
               <div class="glob_ds-card-form">

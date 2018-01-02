@@ -6,7 +6,10 @@ import {MatDialog} from '@angular/material';
 import {Helpers} from '../../helpers/helper';
 import {ConfirmRemovalDialogComponent} from '../../shared/confirm-removal-dialog/confirm-removal-dialog.component';
 import {Router} from '@angular/router';
-import {log} from "util";
+import {ChooseImageDialogComponent} from "../../shared/choose-image-dialog/choose-image-dialog.component";
+
+import { cloneDeep } from 'lodash';
+import {ImagesService} from "../../services/images/images.service";
 
 @Component({
   selector: 'app-blog',
@@ -20,6 +23,7 @@ export class BlogComponent implements AfterViewInit {
   confirmDialog;
   confirmDialogGoFromRoute;
   confirmRemoveDialog;
+  chooseImageDialog;
   addingMode = false;
   editMode = false;
 
@@ -37,6 +41,7 @@ export class BlogComponent implements AfterViewInit {
   images = [];
 
   constructor(private blogService: BlogService,
+              private imagesService: ImagesService,
               private message: MessageService,
               private dialog: MatDialog,
               public router: Router,
@@ -54,8 +59,9 @@ export class BlogComponent implements AfterViewInit {
     });
   }
   getImages(): void {
-    this.blogService.getImages().subscribe((response: any) => {
-      this.images = response.data.map(function (image) {
+    this.imagesService.getImages().subscribe((response: any) => {
+      console.log(response);
+      this.images = response.map(function (image) {
         return{
           checked: false,
           path: image,
@@ -63,12 +69,16 @@ export class BlogComponent implements AfterViewInit {
       });
     });
   }
-  choseImage(i) {
-    this.images.map(function (image, index) {
-      if (index === i) {
-        return image.checked = true;
-      } else {
-        return image.checked = false;
+  chooseImage() {
+    this.chooseImageDialog = this.dialog.open(ChooseImageDialogComponent, {
+      data: {
+        images: this.images
+      }
+    });
+
+    this.chooseImageDialog.afterClosed().subscribe((result: Array<{ checked: boolean, path: string }>) => {
+      if (result) {
+        this.newBlog.image = [result.filter(image => image.checked ? image.path : '')[0].path];
       }
     });
   }
@@ -82,7 +92,7 @@ export class BlogComponent implements AfterViewInit {
     this.helper.setGlobalAddingMode();
     this.addingMode = true;
     this.editMode = true;
-    this.newBlog = this.blogs.filter((blog) => blog.slug === slug)[0];
+    this.newBlog = cloneDeep(this.blogs.filter((blog) => blog.slug === slug)[0]);
   }
 
   /**
@@ -190,21 +200,13 @@ export class BlogComponent implements AfterViewInit {
   }
 
   addImage(): void {
-    this.newBlog.image.push(this.newImageUrl);
+    this.newBlog.image = [this.newImageUrl];
 
     this.newImageUrl = '';
     this.newImageDescription = '';
   }
   removeImage(i): void {
     this.newBlog.image.splice(i, 1);
-  }
-  uploadImage(): void {
-    const formData = new FormData();
-    formData.append('image', this.images[0]);
-
-    this.blogService.uploadImage(formData).subscribe((response: any) => {
-      console.log(response);
-    });
   }
 
   goToRoute(routeLink): void {

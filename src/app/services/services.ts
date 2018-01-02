@@ -5,6 +5,8 @@ import { BlogService } from './blog/blog.service';
 import { NewsletterService } from './newsletter/newsletter.service';
 import { FaqService } from './faq/faq.service';
 import { PdfService } from './pdf/pdf.service';
+import { AdsService } from './ads/ads.service';
+import { ImagesService } from './images/images.service';
 
 import { HelperService } from './helpers/helper.service';
 
@@ -19,5 +21,7 @@ export {
   BlogService,
   NewsletterService,
   FaqService,
-  PdfService
+  PdfService,
+  AdsService,
+  ImagesService
 };

@@ -1,54 +1,73 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import {ConfirmationDialogComponent} from '../../shared/confirmation-dialog/confirmation-dialog.component';
 import {MessageService} from '../../services/utilities/message/message.service';
 import {MatDialog} from '@angular/material';
 import {Helpers} from '../../helpers/helper';
 import {Router} from '@angular/router';
-import {PdfService} from '../../services/pdf/pdf.service';
+import {AdsService} from "../../services/ads/ads.service";
+import {ChooseImageDialogComponent} from "../../shared/choose-image-dialog/choose-image-dialog.component";
+import {ImagesService} from "../../services/images/images.service";
 
 @Component({
-  selector: 'app-pdf-upload',
-  templateUrl: './pdf-upload.component.html',
-  styleUrls: ['./pdf-upload.component.scss']
+  selector: 'app-ads',
+  templateUrl: './ads.component.html',
+  styleUrls: ['ads.component.scss']
 })
-export class PdfUploadComponent implements AfterViewInit {
+export class AdsComponent implements AfterViewInit {
 
   loading = true;
   addLoading = false;
   confirmDialog;
   confirmDialogGoFromRoute;
+  chooseImageDialog;
   addingMode = false;
   editMode = false;
 
-  pdf = [];
+  ads = []
+  images = [];
 
-  constructor(private pdfService: PdfService,
+  constructor(private adsService: AdsService,
+              private imagesService: ImagesService,
               private message: MessageService,
               private dialog: MatDialog,
               public router: Router,
               private helper: Helpers) { }
 
   ngAfterViewInit() {
-    this.getPDF();
+    this.getAds();
+    this.getImages();
   }
 
-  getPDF(): void {
-    this.pdfService.getPDF().subscribe((response: any) => {
+  getAds(): void {
+    this.adsService.getAds().subscribe((response: any) => {
+      console.log(response)
+      this.ads = response.data;
+    });
+  }
+  getImages(): void {
+    this.imagesService.getImages().subscribe((response: any) => {
       console.log(response);
-      this.pdf = response;
+      this.images = response.map(function (image) {
+        return{
+          checked: false,
+          path: image,
+        };
+      });
     });
   }
 
-  fileChange(event) {
-    let fileList: FileList = event.target.files;
-    if(fileList.length > 0) {
-      let file: File = fileList[0];
-      var form = new FormData();
-      form.append("pdf", file);
-      this.pdfService.uploadPDF(form).subscribe(response => {
-        console.log(response);
-      });
-    }
+  chooseImage(section, ad) {
+    this.chooseImageDialog = this.dialog.open(ChooseImageDialogComponent, {
+      data: {
+        images: this.images
+      }
+    });
+
+    this.chooseImageDialog.afterClosed().subscribe((result: Array<{ checked: boolean, path: string }>) => {
+      if (result) {
+        this.ads[section].ads[ad].image = [result.filter(image => image.checked ? image.path : '')[0].path];
+      }
+    });
   }
 
   /**
@@ -74,10 +93,10 @@ export class PdfUploadComponent implements AfterViewInit {
       this.message.show('Data is missing');
     } else {
 
-      this.pdfService.uploadPDF(this.pdf).subscribe((response: any) => {
+      this.adsService.uploadAds(this.ads).subscribe((response: any) => {
         console.log(response);
         this.message.show(response.hasOwnProperty('Message') ? response.Message : 'Error occurred');
-        this.getPDF();
+        this.getAds();
         this.deactivateAddingMode();
       });
     }
