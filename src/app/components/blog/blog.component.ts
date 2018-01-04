@@ -70,15 +70,11 @@ export class BlogComponent implements AfterViewInit {
     });
   }
   chooseImage() {
-    this.chooseImageDialog = this.dialog.open(ChooseImageDialogComponent, {
-      data: {
-        images: this.images
-      }
-    });
+    this.chooseImageDialog = this.dialog.open(ChooseImageDialogComponent);
 
     this.chooseImageDialog.afterClosed().subscribe((result: Array<{ checked: boolean, path: string }>) => {
       if (result) {
-        this.newBlog.image = [result.filter(image => image.checked ? image.path : '')[0].path];
+        this.newBlog.image = result;
       }
     });
   }
