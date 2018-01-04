@@ -39,7 +39,7 @@ export class ToolbarComponent implements OnInit {
 
   defaultImage = config.defaultImage;
 
-  @Input() title = 'SPARTAN APPS';
+  @Input() title = 'BANKE & BIZNIS CMS';
   @Input() color = 'default';
   @Input() userData;
 
