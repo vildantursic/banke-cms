@@ -41,7 +41,7 @@ export class AdsComponent implements AfterViewInit {
   getAds(): void {
     this.adsService.getAds().subscribe((response: any) => {
       console.log(response)
-      this.ads = response.data;
+      this.ads = response[0].data;
     });
   }
   getImages(): void {
@@ -100,6 +100,16 @@ export class AdsComponent implements AfterViewInit {
         this.deactivateAddingMode();
       });
     }
+  }
+
+  updateItem(): void {
+    console.log(this.ads)
+    this.adsService.updateAds({ data: this.ads }).subscribe((response: any) => {
+      console.log(response);
+      this.message.show(response.hasOwnProperty('Message') ? response.Message : 'Error occurred');
+      this.getAds();
+      this.deactivateAddingMode();
+    });
   }
 
   goToRoute(routeLink): void {

@@ -38,10 +38,12 @@
     .image-section {
       position: relative;
       height: 90%;
+      width: 100%;
       background-color: #cdcdcd;
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: hidden;
 
       &:hover {
         .upload-new {

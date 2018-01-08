@@ -8,6 +8,7 @@
   </app-sub-toolbar>
 
   <div class="blog-cards">
+    <button mat-raised-button color="primary" (click)="updateItem()">UPDATE</button>
     <mat-card class="add-card fix-card" *ngFor="let adSection of ads; let i = index">
       <div class="glob_ds-card-form" style="min-height: 240px; overflow: auto">
         <div>
