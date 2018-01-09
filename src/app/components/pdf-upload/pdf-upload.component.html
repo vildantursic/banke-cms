@@ -3,6 +3,7 @@
     <div sub-toolbar-left>
       <button mat-raised-button color="primary" (click)="goToRoute('pdf-upload')">PDF UPLOAD</button>
       <button mat-raised-button color="primary" (click)="goToRoute('ads')">ADS</button>
+      <button mat-raised-button color="primary" (click)="goToRoute('partners')">PARTNERS</button>
       <button mat-raised-button color="primary" (click)="goToRoute('blog')">BLOG</button>
     </div>
   </app-sub-toolbar>
@@ -13,7 +14,6 @@
         <input type="file" (change)="fileChange($event)" placeholder="Upload file" accept=".pdf">
         <a *ngIf="pdf.length !== 0" target="_blank" [href]="pdf[0]">PREVIEW PDF</a>
       </div>
-
     </mat-card>
   </div>
 </div>

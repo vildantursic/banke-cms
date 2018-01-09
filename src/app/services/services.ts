@@ -7,6 +7,7 @@ import { FaqService } from './faq/faq.service';
 import { PdfService } from './pdf/pdf.service';
 import { AdsService } from './ads/ads.service';
 import { ImagesService } from './images/images.service';
+import { PartnersService } from './partners/partners.service';
 
 import { HelperService } from './helpers/helper.service';
 
@@ -23,5 +24,6 @@ export {
   FaqService,
   PdfService,
   AdsService,
-  ImagesService
+  ImagesService,
+  PartnersService
 };

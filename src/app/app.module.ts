@@ -28,7 +28,8 @@ import {
   FaqService,
   PdfService,
   AdsService,
-  ImagesService
+  ImagesService,
+  PartnersService
 } from './services/services';
 
 import { LoginComponent } from './components/login/login.component';
@@ -36,8 +37,9 @@ import { BlogComponent } from './components/blog/blog.component';
 
 import { AppRoutingModule } from './app-routing.module';
 import { PdfUploadComponent } from './components/pdf-upload/pdf-upload.component';
-import {ShareButtonsModule} from "ngx-sharebuttons";
+import {ShareButtonsModule} from 'ngx-sharebuttons';
 import { AdsComponent } from './components/ads/ads.component';
+import {PartnersComponent} from './components/partners/partners.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +48,7 @@ import { AdsComponent } from './components/ads/ads.component';
     LoginComponent,
     PdfUploadComponent,
     AdsComponent,
+    PartnersComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ang4-seo-pre'}),
@@ -79,7 +82,8 @@ import { AdsComponent } from './components/ads/ads.component';
     FaqService,
     PdfService,
     AdsService,
-    ImagesService
+    ImagesService,
+    PartnersService
   ],
   bootstrap: [AppComponent],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
