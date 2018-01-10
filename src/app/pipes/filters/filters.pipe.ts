@@ -20,8 +20,10 @@ export class FiltersPipe implements PipeTransform {
 export class SortPipe implements PipeTransform {
 
   transform(value: any, args?: any): any {
-    return value.sort((a: any, b: any) =>
-      new Date(a.created_at).getDate() - new Date(b.created_at).getDate()
-    );
+    return value.sort(function(a, b) {
+      a = new Date(a.created_at);
+      b = new Date(b.created_at);
+      return a > b ? -1 : a < b ? 1 : 0;
+    });
   }
 }
