@@ -14,7 +14,7 @@
   </app-sub-toolbar>
 
   <div class="blog-cards" *ngIf="!addingMode">
-    <app-blog-card *ngFor="let blog of blogs" [item]="blog" (onEdit)="onEditClicked($event)" (onRemove)="removeConfirm($event)"></app-blog-card>
+    <app-blog-card *ngFor="let blog of blogs | sort" [item]="blog" (onEdit)="onEditClicked($event)" (onRemove)="removeConfirm($event)"></app-blog-card>
   </div>
   <div class="edit-blog" *ngIf="addingMode">
     <mat-card class="add-card">

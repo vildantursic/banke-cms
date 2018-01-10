@@ -40,6 +40,7 @@ import { PdfUploadComponent } from './components/pdf-upload/pdf-upload.component
 import {ShareButtonsModule} from 'ngx-sharebuttons';
 import { AdsComponent } from './components/ads/ads.component';
 import {PartnersComponent} from './components/partners/partners.component';
+import {FiltersPipe, SortPipe} from './pipes/filters/filters.pipe';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,8 @@ import {PartnersComponent} from './components/partners/partners.component';
     PdfUploadComponent,
     AdsComponent,
     PartnersComponent,
+    FiltersPipe,
+    SortPipe,
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ang4-seo-pre'}),

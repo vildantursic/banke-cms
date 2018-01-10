@@ -14,7 +14,6 @@
   </app-sub-toolbar>
 
   <div class="blog-cards" *ngIf="!addingMode">
-    <button mat-raised-button color="primary" (click)="updateItem()">UPDATE</button>
     <mat-card class="add-card fix-card">
       <div class="glob_ds-card-form" style="min-height: 240px; overflow: auto">
         <div>
@@ -22,7 +21,35 @@
         </div>
         <div>
           <div class="images-from-server">
-            <div *ngFor="let partner of partners; let i = index" class="image-block">
+            <div *ngFor="let partner of partners | filter:['bank']; let i = index" class="image-block">
+              <div>
+                <mat-checkbox [(ngModel)]="partner.active" (change)="partner.active = !$event">Check me!</mat-checkbox>
+                <button mat-raised-button color="primary" (click)="removeConfirm(partner._id)">Remove Partner</button>
+              </div>
+              <div>
+                <mat-input-container class="ds-full-width">
+                  <input matInput placeholder="url to ad" name="link" [(ngModel)]="partner.url">
+                </mat-input-container>
+              </div>
+              <div class="image-section">
+                <div class="upload-new">
+                  <button mat-raised-button color="primary" (click)="chooseImage(i)">CHOOSE PARTNER IMAGE</button>
+                </div>
+                <img [src]="partner.image" alt="">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+    <mat-card>
+      <div class="glob_ds-card-form" style="min-height: 240px; overflow: auto">
+        <div>
+          <h1>Lizing</h1>
+        </div>
+        <div>
+          <div class="images-from-server">
+            <div *ngFor="let partner of partners | filter:['leasing']; let i = index" class="image-block">
               <div>
                 <mat-checkbox [(ngModel)]="partner.active" (change)="partner.active = !$event">Check me!</mat-checkbox>
                 <button mat-raised-button color="primary" (click)="removeConfirm(partner._id)">Remove Partner</button>
@@ -53,8 +80,8 @@
 
       <div class="glob_ds-card-form">
         <mat-form-field>
-          <mat-select placeholder="Partner type">
-            <mat-option *ngFor="let type of types" [value]="type.value" (change)="newPartner.type = $event">
+          <mat-select placeholder="Partner type" (selectionChange)="newPartner.type = $event.value">
+            <mat-option *ngFor="let type of types" [value]="type.value">
               {{ type.viewValue }}
             </mat-option>
           </mat-select>
