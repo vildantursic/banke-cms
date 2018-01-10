@@ -25,5 +25,6 @@ export class SortPipe implements PipeTransform {
       b = new Date(b.created_at);
       return a > b ? -1 : a < b ? 1 : 0;
     });
+
   }
 }
