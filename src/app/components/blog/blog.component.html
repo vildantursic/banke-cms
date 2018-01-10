@@ -3,6 +3,7 @@
     <div sub-toolbar-left>
       <button mat-raised-button color="primary" (click)="goToRoute('pdf-upload')">PDF UPLOAD</button>
       <button mat-raised-button color="primary" (click)="goToRoute('ads')">ADS</button>
+      <button mat-raised-button color="primary" (click)="goToRoute('partners')">PARTNERS</button>
       <button mat-raised-button color="primary" (click)="goToRoute('blog')">BLOG</button>
     </div>
     <div sub-toolbar-right>
@@ -13,7 +14,7 @@
   </app-sub-toolbar>
 
   <div class="blog-cards" *ngIf="!addingMode">
-    <app-blog-card *ngFor="let blog of blogs" [item]="blog" (onEdit)="onEditClicked($event)" (onRemove)="removeConfirm($event)"></app-blog-card>
+    <app-blog-card *ngFor="let blog of blogs | sort" [item]="blog" (onEdit)="onEditClicked($event)" (onRemove)="removeConfirm($event)"></app-blog-card>
   </div>
   <div class="edit-blog" *ngIf="addingMode">
     <mat-card class="add-card">

@@ -22,4 +22,12 @@ export class AdsService {
   uploadAds(ads): Observable<any> {
     return this.service.post(`ads`, ads);
   }
+
+  /**
+   * Update ads
+   * @returns {Observable<any>}
+   */
+  updateAds(ads): Observable<any> {
+    return this.service.put(`ads`, ads);
+  }
 }

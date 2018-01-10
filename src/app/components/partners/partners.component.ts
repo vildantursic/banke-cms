@@ -7,26 +7,45 @@ import {Router} from '@angular/router';
 import {AdsService} from "../../services/ads/ads.service";
 import {ChooseImageDialogComponent} from "../../shared/choose-image-dialog/choose-image-dialog.component";
 import {ImagesService} from "../../services/images/images.service";
+import {PartnersService} from "../../services/partners/partners.service";
+import {ConfirmRemovalDialogComponent} from "../../shared/confirm-removal-dialog/confirm-removal-dialog.component";
 
 @Component({
-  selector: 'app-ads',
-  templateUrl: './ads.component.html',
-  styleUrls: ['ads.component.scss']
+  selector: 'app-partners',
+  templateUrl: './partners.component.html',
+  styleUrls: ['./partners.component.scss']
 })
-export class AdsComponent implements AfterViewInit {
+export class PartnersComponent implements AfterViewInit {
 
   loading = true;
   addLoading = false;
   confirmDialog;
   confirmDialogGoFromRoute;
+  confirmRemoveDialog;
   chooseImageDialog;
   addingMode = false;
   editMode = false;
 
-  ads = []
-  images = [];
+  newPartner = {
+    image: '',
+    type: '',
+    active: true
+  }
 
-  constructor(private adsService: AdsService,
+  partners = [];
+  images = [];
+  types = [
+    {
+      value: 'bank',
+      viewValue: 'Banka',
+    },
+    {
+      value: 'leasing',
+      viewValue: 'Lizing',
+    }
+  ];
+
+  constructor(private partnersService: PartnersService,
               private imagesService: ImagesService,
               private message: MessageService,
               private dialog: MatDialog,
@@ -34,14 +53,14 @@ export class AdsComponent implements AfterViewInit {
               private helper: Helpers) { }
 
   ngAfterViewInit() {
-    this.getAds();
+    this.getPartners();
     this.getImages();
   }
 
-  getAds(): void {
-    this.adsService.getAds().subscribe((response: any) => {
+  getPartners(): void {
+    this.partnersService.getPartners().subscribe((response: any) => {
       console.log(response)
-      this.ads = response[0].data;
+      this.partners = response;
     });
   }
   getImages(): void {
@@ -56,7 +75,12 @@ export class AdsComponent implements AfterViewInit {
     });
   }
 
-  chooseImage(section, ad) {
+  addNewItem(): void {
+    this.helper.setGlobalAddingMode();
+    this.addingMode = true;
+  }
+
+  chooseImage() {
     this.chooseImageDialog = this.dialog.open(ChooseImageDialogComponent, {
       data: {
         images: this.images
@@ -65,8 +89,33 @@ export class AdsComponent implements AfterViewInit {
 
     this.chooseImageDialog.afterClosed().subscribe((result: Array<{ checked: boolean, path: string }>) => {
       if (result) {
-        this.ads[section].ads[ad].image = [result.filter(image => image.checked ? image.path : '')[0].path];
+        this.newPartner.image = result.filter(image => image.checked ? image.path : '')[0].path;
       }
+    });
+  }
+
+  /**
+   * Opens item removal confirmation dialog, passes id and reacts on selected dialog option (remove / cancel)
+   * @param id
+   */
+  removeConfirm(id): void {
+    this.confirmRemoveDialog = this.dialog.open(ConfirmRemovalDialogComponent);
+
+    this.confirmRemoveDialog.afterClosed().subscribe(result => {
+      if (result) {
+        this.removeItem(id);
+      }
+    });
+  }
+
+  /**
+   * Remove item for passed id
+   * @param id
+   */
+  removeItem(id): void {
+    this.partnersService.deletePartner(id).subscribe((response: any) => {
+      this.message.show(response.hasOwnProperty('Message') ? response.Message : 'Error occurred');
+      this.getPartners();
     });
   }
 
@@ -93,23 +142,13 @@ export class AdsComponent implements AfterViewInit {
       this.message.show('Data is missing');
     } else {
 
-      this.adsService.uploadAds(this.ads).subscribe((response: any) => {
+      this.partnersService.createPartner(this.newPartner).subscribe((response: any) => {
         console.log(response);
         this.message.show(response.hasOwnProperty('Message') ? response.Message : 'Error occurred');
-        this.getAds();
+        this.getPartners();
         this.deactivateAddingMode();
       });
     }
-  }
-
-  updateItem(): void {
-    console.log(this.ads)
-    this.adsService.updateAds({ data: this.ads }).subscribe((response: any) => {
-      console.log(response);
-      this.message.show(response.hasOwnProperty('Message') ? response.Message : 'Error occurred');
-      this.getAds();
-      this.deactivateAddingMode();
-    });
   }
 
   goToRoute(routeLink): void {
@@ -143,9 +182,18 @@ export class AdsComponent implements AfterViewInit {
     this.addingMode = false;
     this.addLoading = false;
     this.editMode = false;
+    this.clearData();
   }
 
   validateInsert(): boolean {
     return false;
+  }
+
+  clearData(): void {
+    this.newPartner = {
+      image: '',
+      type: '',
+      active: true
+    };
   }
 }

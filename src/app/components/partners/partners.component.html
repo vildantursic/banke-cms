@@ -1,0 +1,100 @@
+<div class="blog-page">
+  <app-sub-toolbar>
+    <div sub-toolbar-left>
+      <button mat-raised-button color="primary" (click)="goToRoute('pdf-upload')">PDF UPLOAD</button>
+      <button mat-raised-button color="primary" (click)="goToRoute('ads')">ADS</button>
+      <button mat-raised-button color="primary" (click)="goToRoute('partners')">PARTNERS</button>
+      <button mat-raised-button color="primary" (click)="goToRoute('blog')">BLOG</button>
+    </div>
+    <div sub-toolbar-right>
+      <button mat-raised-button color="primary" (click)="addNewItem()" *ngIf="!addingMode">Add</button>
+      <button mat-raised-button color="primary" (click)="saveConfirm()" *ngIf="addingMode">Save</button>
+      <button mat-button color="warn" (click)="closeAddingItem()" *ngIf="addingMode">Close</button>
+    </div>
+  </app-sub-toolbar>
+
+  <div class="blog-cards" *ngIf="!addingMode">
+    <mat-card class="add-card fix-card">
+      <div class="glob_ds-card-form" style="min-height: 240px; overflow: auto">
+        <div>
+          <h1>Banke</h1>
+        </div>
+        <div>
+          <div class="images-from-server">
+            <div *ngFor="let partner of partners | filter:['bank']; let i = index" class="image-block">
+              <div>
+                <mat-checkbox [(ngModel)]="partner.active" (change)="partner.active = !$event">Check me!</mat-checkbox>
+                <button mat-raised-button color="primary" (click)="removeConfirm(partner._id)">Remove Partner</button>
+              </div>
+              <div>
+                <mat-input-container class="ds-full-width">
+                  <input matInput placeholder="url to ad" name="link" [(ngModel)]="partner.url">
+                </mat-input-container>
+              </div>
+              <div class="image-section">
+                <div class="upload-new">
+                  <button mat-raised-button color="primary" (click)="chooseImage(i)">CHOOSE PARTNER IMAGE</button>
+                </div>
+                <img [src]="partner.image" alt="">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+    <mat-card>
+      <div class="glob_ds-card-form" style="min-height: 240px; overflow: auto">
+        <div>
+          <h1>Lizing</h1>
+        </div>
+        <div>
+          <div class="images-from-server">
+            <div *ngFor="let partner of partners | filter:['leasing']; let i = index" class="image-block">
+              <div>
+                <mat-checkbox [(ngModel)]="partner.active" (change)="partner.active = !$event">Check me!</mat-checkbox>
+                <button mat-raised-button color="primary" (click)="removeConfirm(partner._id)">Remove Partner</button>
+              </div>
+              <div>
+                <mat-input-container class="ds-full-width">
+                  <input matInput placeholder="url to ad" name="link" [(ngModel)]="partner.url">
+                </mat-input-container>
+              </div>
+              <div class="image-section">
+                <div class="upload-new">
+                  <button mat-raised-button color="primary" (click)="chooseImage(i)">CHOOSE PARTNER IMAGE</button>
+                </div>
+                <img [src]="partner.image" alt="">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+
+  <div class="blog-cards" *ngIf="addingMode">
+    <mat-card class="add-card fix-card">
+      <div class="glob_ds-card-form">
+        <button mat-raised-button color="primary" (click)="chooseImage()">Choose image</button>
+      </div>
+
+      <div class="glob_ds-card-form">
+        <mat-form-field>
+          <mat-select placeholder="Partner type" (selectionChange)="newPartner.type = $event.value">
+            <mat-option *ngFor="let type of types" [value]="type.value">
+              {{ type.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-input-container style="width: 40%">
+          <input matInput placeholder="Partner Link URL" name="url" [(ngModel)]="newPartner.url">
+        </mat-input-container>
+
+        <mat-input-container style="width: 40%">
+          <input matInput placeholder="Image URL" name="name" [(ngModel)]="newPartner.image">
+        </mat-input-container>
+      </div>
+    </mat-card>
+  </div>
+</div>
