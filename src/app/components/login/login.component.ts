@@ -22,6 +22,10 @@ interface IUserParams {
 export class LoginComponent implements OnInit {
 
   login;
+  user = {
+    username: '',
+    password: ''
+  }
 
   constructor(private authService: AuthService,
               private route: ActivatedRoute,
@@ -44,5 +48,12 @@ export class LoginComponent implements OnInit {
         });
       }
     });
+  }
+
+  userLogin() {
+    if (this.user.username === 'banke' && this.user.password === 'banke123') {
+      this.helper.setStorageData({ access_token: 'test' });
+      location.reload();
+    }
   }
 }
