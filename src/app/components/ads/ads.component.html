@@ -22,7 +22,7 @@
                 <mat-checkbox [(ngModel)]="ad.active" (change)="ad.active = !$event">Check me!</mat-checkbox>
               </div>
               <div>
-                <button mat-raised-button color="primary" (click)="clearImage()">REMOVE IMAGE</button>
+                <button mat-raised-button color="primary" (click)="clearImage(i, j)">REMOVE IMAGE</button>
               </div>
               <div>
                 <mat-input-container class="ds-full-width">
