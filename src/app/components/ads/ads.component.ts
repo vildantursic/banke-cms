@@ -56,6 +56,9 @@ export class AdsComponent implements AfterViewInit {
     });
   }
 
+  clearImage(section, ad) {
+    this.ads[section].ads[ad].image = '';
+  }
   chooseImage(section, ad) {
     this.chooseImageDialog = this.dialog.open(ChooseImageDialogComponent, {
       data: {
