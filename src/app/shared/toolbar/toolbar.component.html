@@ -1,6 +1,13 @@
 <mat-toolbar [color]="color">
-  <img [src]="userData?.image ? userData?.image : defaultImage" alt="" class="ds-toolbar-user-image">
+  <!--<img [src]="userData?.image ? userData?.image : defaultImage" alt="" class="ds-toolbar-user-image">-->
   <span>{{title}}</span>
+  <div style="margin-left: 25px">
+    <button mat-raised-button color="primary" (click)="goToRoute('pdf-upload')">PDF UPLOAD</button>
+    <button mat-raised-button color="primary" (click)="goToRoute('ads')">ADS</button>
+    <button mat-raised-button color="primary" (click)="goToRoute('partners')">PARTNERS</button>
+    <button mat-raised-button color="primary" (click)="goToRoute('blog')">BLOG</button>
+    <button mat-raised-button color="primary" (click)="goToRoute('general')">GENERAL</button>
+  </div>
   <span class="ds-toolbar-spacer"></span>
   <a mat-raised-button color="primary" (click)="onLogout.emit(true)">
     Logout

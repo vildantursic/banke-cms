@@ -41,6 +41,7 @@ import {ShareButtonsModule} from 'ngx-sharebuttons';
 import { AdsComponent } from './components/ads/ads.component';
 import {PartnersComponent} from './components/partners/partners.component';
 import {FiltersPipe, SortPipe} from './pipes/filters/filters.pipe';
+import { GeneralComponent } from './components/general/general.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import {FiltersPipe, SortPipe} from './pipes/filters/filters.pipe';
     PartnersComponent,
     FiltersPipe,
     SortPipe,
+    GeneralComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ang4-seo-pre'}),

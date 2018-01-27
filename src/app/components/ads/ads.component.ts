@@ -18,7 +18,6 @@ export class AdsComponent implements AfterViewInit {
   loading = true;
   addLoading = false;
   confirmDialog;
-  confirmDialogGoFromRoute;
   chooseImageDialog;
   addingMode = false;
   editMode = false;
@@ -113,25 +112,6 @@ export class AdsComponent implements AfterViewInit {
       this.getAds();
       this.deactivateAddingMode();
     });
-  }
-
-  goToRoute(routeLink): void {
-    if (sessionStorage.getItem('adding') === 'true') {
-      this.confirmDialogGoFromRoute = this.dialog.open(ConfirmationDialogComponent, {
-        data: {
-          title: 'Are you sure you want to go ... all data will be lost',
-          confirmation: 'Go'
-        }
-      });
-
-      this.confirmDialogGoFromRoute.afterClosed().subscribe(result => {
-        if (result) {
-          this.router.navigate([routeLink]);
-        }
-      });
-    } else {
-      this.router.navigate([routeLink]);
-    }
   }
 
   /**

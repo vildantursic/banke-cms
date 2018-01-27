@@ -1,11 +1,5 @@
 <div class="blog-page">
   <app-sub-toolbar>
-    <div sub-toolbar-left>
-      <button mat-raised-button color="primary" (click)="goToRoute('pdf-upload')">PDF UPLOAD</button>
-      <button mat-raised-button color="primary" (click)="goToRoute('ads')">ADS</button>
-      <button mat-raised-button color="primary" (click)="goToRoute('partners')">PARTNERS</button>
-      <button mat-raised-button color="primary" (click)="goToRoute('blog')">BLOG</button>
-    </div>
     <div sub-toolbar-right>
       <button mat-raised-button color="primary" (click)="addNewItem()" *ngIf="!addingMode">Add</button>
       <button mat-raised-button color="primary" (click)="saveConfirm()" *ngIf="addingMode">Save</button>

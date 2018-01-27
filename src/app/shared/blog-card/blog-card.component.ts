@@ -46,9 +46,12 @@ import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angula
       width: calc(100% + 48px);
       margin: 0;
     }
+    .top {
+      background: #0288D1 !important;
+    }
   `],
   template: `
-    <mat-card>
+    <mat-card [ngClass]="{'top': item?.topNews}">
       <div class="card-image">
         <img mat-card-image [src]="item?.image.length !== 0 ? item?.image[0] : '' " alt="">
       </div>

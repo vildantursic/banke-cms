@@ -1,5 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { config } from '../../app.config';
+import {ConfirmationDialogComponent} from "../confirmation-dialog/confirmation-dialog.component";
+import {MatDialog} from "@angular/material";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-toolbar',
@@ -38,17 +41,37 @@ import { config } from '../../app.config';
 export class ToolbarComponent implements OnInit {
 
   defaultImage = config.defaultImage;
+  confirmDialogGoFromRoute;
 
-  @Input() title = 'SPARTAN APPS';
+  @Input() title = 'BANK & BIZNIS';
   @Input() color = 'default';
   @Input() userData;
 
   @Output('toggleSidebar') toggleSidebar: EventEmitter<boolean> = new EventEmitter();
   @Output('onLogout') onLogout: EventEmitter<boolean> = new EventEmitter();
 
-  constructor() { }
+  constructor(private router: Router, private dialog: MatDialog) { }
 
   ngOnInit() {
+  }
+
+  goToRoute(routeLink): void {
+    if (sessionStorage.getItem('adding') === 'true') {
+      this.confirmDialogGoFromRoute = this.dialog.open(ConfirmationDialogComponent, {
+        data: {
+          title: 'Are you sure you want to go ... all data will be lost',
+          confirmation: 'Go'
+        }
+      });
+
+      this.confirmDialogGoFromRoute.afterClosed().subscribe(result => {
+        if (result) {
+          this.router.navigate([routeLink]);
+        }
+      });
+    } else {
+      this.router.navigate([routeLink]);
+    }
   }
 
 }

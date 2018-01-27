@@ -1,15 +1,11 @@
 <div class="blog-page">
   <app-sub-toolbar>
     <div sub-toolbar-left>
-      <button mat-raised-button color="primary" (click)="goToRoute('pdf-upload')">PDF UPLOAD</button>
-      <button mat-raised-button color="primary" (click)="goToRoute('ads')">ADS</button>
-      <button mat-raised-button color="primary" (click)="goToRoute('partners')">PARTNERS</button>
-      <button mat-raised-button color="primary" (click)="goToRoute('blog')">BLOG</button>
+      <button mat-raised-button color="primary" (click)="updateItem()">UPDATE</button>
     </div>
   </app-sub-toolbar>
 
   <div class="blog-cards">
-    <button mat-raised-button color="primary" (click)="updateItem()">UPDATE</button>
     <mat-card class="add-card fix-card" *ngFor="let adSection of ads; let i = index">
       <div class="glob_ds-card-form" style="min-height: 240px; overflow: auto">
         <div>

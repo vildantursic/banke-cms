@@ -1,11 +1,5 @@
 <div class="blog-page">
   <app-sub-toolbar>
-    <div sub-toolbar-left>
-      <button mat-raised-button color="primary" (click)="goToRoute('pdf-upload')">PDF UPLOAD</button>
-      <button mat-raised-button color="primary" (click)="goToRoute('ads')">ADS</button>
-      <button mat-raised-button color="primary" (click)="goToRoute('partners')">PARTNERS</button>
-      <button mat-raised-button color="primary" (click)="goToRoute('blog')">BLOG</button>
-    </div>
     <div sub-toolbar-right>
       <button mat-raised-button color="primary" (click)="addNewItem()" *ngIf="!addingMode">Add</button>
       <button mat-raised-button color="primary" (click)="saveConfirm()" *ngIf="addingMode">Save</button>
@@ -25,10 +19,25 @@
             <mat-tab label="TEXT">
 
               <div class="glob_ds-card-form">
+                <div>
+                  <mat-checkbox [(ngModel)]="newBlog.topNews" (change)="newBlog.topNews = !$event">Top News</mat-checkbox>
+                  {{newBlog.topNews | json}}
+                </div>
+
                 <form>
+                  <mat-input-container class="ds-full-width" *ngIf="newBlog.topNews">
+                    <input matInput #blogSuptitle maxlength="50" placeholder="Blog suptitle" name="suptitle" required [(ngModel)]="newBlog.suptitle">
+                    <mat-hint align="end">{{blogSuptitle.value.length}} / 50</mat-hint>
+                  </mat-input-container>
+
                   <mat-input-container class="ds-full-width">
-                    <input matInput #blogName maxlength="100" placeholder="Blog title" name="title" required [(ngModel)]="newBlog.title">
-                    <mat-hint align="end">{{blogName.value.length}} / 100</mat-hint>
+                    <input matInput #blogTitle maxlength="50" placeholder="Blog title" name="title" required [(ngModel)]="newBlog.title">
+                    <mat-hint align="end">{{blogTitle.value.length}} / 50</mat-hint>
+                  </mat-input-container>
+
+                  <mat-input-container class="ds-full-width">
+                    <input matInput #blogSubtitle maxlength="100" placeholder="Blog subtitle" name="subtitle" required [(ngModel)]="newBlog.subtitle">
+                    <mat-hint align="end">{{blogSubtitle.value.length}} / 100</mat-hint>
                   </mat-input-container>
                 </form>
 

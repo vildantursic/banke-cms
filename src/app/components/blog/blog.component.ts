@@ -21,7 +21,6 @@ export class BlogComponent implements AfterViewInit {
   loading = true;
   addLoading = false;
   confirmDialog;
-  confirmDialogGoFromRoute;
   confirmRemoveDialog;
   chooseImageDialog;
   addingMode = false;
@@ -33,10 +32,13 @@ export class BlogComponent implements AfterViewInit {
   newImageDescription = '';
   newBlog = {
     slug: '',
+    suptitle: '',
     title: '',
+    subtitle: '',
     content: '',
     image: [],
-    categories: []
+    categories: [],
+    topNews: false,
   };
   images = [];
 
@@ -209,25 +211,6 @@ export class BlogComponent implements AfterViewInit {
     this.newBlog.image.splice(i, 1);
   }
 
-  goToRoute(routeLink): void {
-    if (sessionStorage.getItem('adding') === 'true') {
-      this.confirmDialogGoFromRoute = this.dialog.open(ConfirmationDialogComponent, {
-        data: {
-          title: 'Are you sure you want to go ... all data will be lost',
-          confirmation: 'Go'
-        }
-      });
-
-      this.confirmDialogGoFromRoute.afterClosed().subscribe(result => {
-        if (result) {
-          this.router.navigate([routeLink]);
-        }
-      });
-    } else {
-      this.router.navigate([routeLink]);
-    }
-  }
-
   /**
    * Closes add new item form and shows item list
    */
@@ -251,10 +234,13 @@ export class BlogComponent implements AfterViewInit {
   clearInputs(): void {
     this.newBlog = {
       slug: '',
+      suptitle: '',
       title: '',
+      subtitle: '',
       content: '',
       image: [],
-      categories: []
+      categories: [],
+      topNews: false,
     };
   }
 }
