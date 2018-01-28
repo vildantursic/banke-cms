@@ -1,0 +1,37 @@
+<div class="blog-page">
+  <app-sub-toolbar>
+    <div sub-toolbar-right>
+      <button mat-raised-button color="primary" (click)="saveConfirm()">Save</button>
+    </div>
+  </app-sub-toolbar>
+
+  <div class="edit-blog">
+    <mat-card class="add-card">
+      <div style="display: flex; flex-direction: row; height: 80vh; overflow: auto">
+        <mat-tab-group style="width: 100%">
+          <mat-tab label="TAGS">
+            <div class="glob_ds-card-form">
+              <mat-input-container style="width: 50%">
+                <input matInput #tagName maxlength="30" placeholder="Tag name" name="name" [(ngModel)]="newTag">
+                <mat-hint align="end">{{tagName.value.length}} / 30</mat-hint>
+              </mat-input-container>
+              <button mat-raised-button color="warn" (click)="addTag()">Add Tag</button>
+              <mat-list>
+                <mat-list-item *ngFor="let tag of tags; let i = index">
+                  {{tag}}
+                  <div class="ds-spacer"></div>
+                  <div class="icon">
+                    <mat-icon mat-list-icon matTooltip="Remove!" (click)="removeTag(i)">clear</mat-icon>
+                  </div>
+                </mat-list-item>
+              </mat-list>
+            </div>
+          </mat-tab>
+          <mat-tab label="SETTINGS">
+
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+    </mat-card>
+  </div>
+</div>

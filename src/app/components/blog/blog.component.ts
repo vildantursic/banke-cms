@@ -8,8 +8,9 @@ import {ConfirmRemovalDialogComponent} from '../../shared/confirm-removal-dialog
 import {Router} from '@angular/router';
 import {ChooseImageDialogComponent} from "../../shared/choose-image-dialog/choose-image-dialog.component";
 
-import { cloneDeep } from 'lodash';
+import { cloneDeep, find } from 'lodash';
 import {ImagesService} from "../../services/images/images.service";
+import {SystemService} from "../../services/system/system.service";
 
 @Component({
   selector: 'app-blog',
@@ -41,12 +42,14 @@ export class BlogComponent implements AfterViewInit {
     topNews: false,
   };
   images = [];
+  tags = [];
 
   constructor(private blogService: BlogService,
               private imagesService: ImagesService,
               private message: MessageService,
               private dialog: MatDialog,
               public router: Router,
+              private systemService: SystemService,
               private helper: Helpers) { }
 
   ngAfterViewInit() {
@@ -57,12 +60,10 @@ export class BlogComponent implements AfterViewInit {
   getBlogs(): void {
     this.blogService.getBlogs().subscribe((response: any) => {
       this.blogs = response;
-      console.log(this.blogs)
     });
   }
   getImages(): void {
     this.imagesService.getImages().subscribe((response: any) => {
-      console.log(response);
       this.images = response.map(function (image) {
         return{
           checked: false,
@@ -71,6 +72,22 @@ export class BlogComponent implements AfterViewInit {
       });
     });
   }
+  getTags(): void {
+    this.tags = [];
+    console.log(this.newBlog.categories);
+    this.systemService.getTags().subscribe((response: any) => {
+      response = response[response.length - 1];
+      for (const i in response) {
+        if (response.hasOwnProperty(i) && i !== '_id' && i !== '__v') {
+          this.tags.push({
+            active: this.newBlog.categories.filter(cat => cat === response[i] ? cat : null).length !== 0,
+            name: response[i]
+          });
+        }
+      }
+    });
+  }
+
   chooseImage() {
     this.chooseImageDialog = this.dialog.open(ChooseImageDialogComponent, {
       data: {
@@ -95,6 +112,7 @@ export class BlogComponent implements AfterViewInit {
     this.addingMode = true;
     this.editMode = true;
     this.newBlog = cloneDeep(this.blogs.filter((blog) => blog.slug === slug)[0]);
+    this.getTags();
   }
 
   /**
@@ -139,6 +157,7 @@ export class BlogComponent implements AfterViewInit {
    * Prepares data for saving and saves item
    */
   saveItem(): void {
+    this.addCategory();
 
     if (this.validateInsert()) {
       this.message.show('Data is missing');
@@ -193,13 +212,17 @@ export class BlogComponent implements AfterViewInit {
   }
 
   addCategory(): void {
-    this.newBlog.categories.push(this.newTag);
-
-    this.newTag = '';
+    this.newBlog.categories = [];
+    this.tags.forEach(tag => {
+      if (tag.active) {
+        this.newBlog.categories.push(tag.name);
+      }
+    })
+    console.log(this.newBlog.categories);
   }
-  removeCategory(i): void {
-    this.newBlog.categories.splice(i, 1);
-  }
+  // removeCategory(i): void {
+  //   this.newBlog.categories.splice(i, 1);
+  // }
 
   addImage(): void {
     this.newBlog.image = [this.newImageUrl];
@@ -211,6 +234,9 @@ export class BlogComponent implements AfterViewInit {
     this.newBlog.image.splice(i, 1);
   }
 
+  canSetToTopNews(): boolean {
+    return this.blogs.filter(item => item.topNews ? item : null).length >= 5 && !this.newBlog.topNews;
+  }
   /**
    * Closes add new item form and shows item list
    */

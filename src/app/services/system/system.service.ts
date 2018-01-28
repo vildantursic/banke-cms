@@ -8,43 +8,20 @@ export class SystemService {
   constructor(private service: MainService) { }
 
   /**
-   * Gets array of users
-   * @param type
+   * Gets tags
    * @returns {Observable<any>}
    */
-  getUsers(type?): Observable<any> {
-    return this.service.get(type ? `admin/worker?type=${type}` : `admin/worker`);
+  getTags(): Observable<any> {
+    return this.service.get(`tags`);
   }
 
   /**
-   * Gets array of user projects
-   * @param email
-   * @returns {Observable<any>}
-   */
-  getUserProjects(email): Observable<any> {
-    return this.service.get(`admin/project?email=${email}`);
-  }
-
-
-
-  /**
-   * Update user role
-   * @param username
+   * Update tags
    * @param data
    * @returns {Observable<any>}
    */
-  updateUserRole(username, data): Observable<any> {
-    return this.service.put(`admin/scope/${username}`, data);
-  }
-
-  /**
-   * Update user api limit
-   * @param username
-   * @param data
-   * @returns {Observable<any>}
-   */
-  updateUserApiLimit(username, data): Observable<any> {
-    return this.service.put(`admin/api/${username}`, data);
+  updateTags(data): Observable<any> {
+    return this.service.post(`tags`, data);
   }
 
   /**

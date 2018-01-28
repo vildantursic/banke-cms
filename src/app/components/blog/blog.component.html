@@ -20,8 +20,7 @@
 
               <div class="glob_ds-card-form">
                 <div>
-                  <mat-checkbox [(ngModel)]="newBlog.topNews" (change)="newBlog.topNews = !$event">Top News</mat-checkbox>
-                  {{newBlog.topNews | json}}
+                  <mat-checkbox [disabled]="canSetToTopNews()" [(ngModel)]="newBlog.topNews">Top News</mat-checkbox>
                 </div>
 
                 <form>
@@ -73,19 +72,30 @@
         </div>
         <div class="glob_ds-card-form" style="width: 30%; height: 100%;">
           <!--<app-ds-selectable-tags [tags]="tags"></app-ds-selectable-tags>-->
-          <mat-input-container style="width: 50%">
-            <input matInput #tagName maxlength="30" placeholder="Tag name" name="name" [(ngModel)]="newTag">
-            <mat-hint align="end">{{tagName.value.length}} / 30</mat-hint>
-          </mat-input-container>
-          <button mat-raised-button color="warn" (click)="addCategory()">Add Tag</button>
+          <!--<mat-input-container style="width: 50%">-->
+            <!--<input matInput #tagName maxlength="30" placeholder="Tag name" name="name" [(ngModel)]="newTag">-->
+            <!--<mat-hint align="end">{{tagName.value.length}} / 30</mat-hint>-->
+          <!--</mat-input-container>-->
+          <!--<mat-form-field>-->
+            <!--<mat-select placeholder="Tags" multiple>-->
+              <!--<mat-option *ngFor="let tag of tags" [value]="tag">{{tag}}</mat-option>-->
+            <!--</mat-select>-->
+          <!--</mat-form-field>-->
+          <!--<button mat-raised-button color="warn" (click)="addCategory()">Save</button>-->
           <mat-list>
-            <mat-list-item *ngFor="let category of newBlog.categories; let i = index">
-              {{category}}
-              <div class="ds-spacer"></div>
-              <div class="icon">
-                <mat-icon mat-list-icon matTooltip="Remove!" (click)="removeCategory(i)">clear</mat-icon>
-              </div>
-            </mat-list-item>
+            <div style="width: 100%" *ngFor="let tag of tags; let i = index">
+              <mat-checkbox [(ngModel)]="tag.active">
+                {{tag.name}}
+              </mat-checkbox>
+            </div>
+
+            <!--<mat-list-item *ngFor="let category of newBlog.categories; let i = index">-->
+              <!--{{category}}-->
+              <!--<div class="ds-spacer"></div>-->
+              <!--<div class="icon">-->
+                <!--<mat-icon mat-list-icon matTooltip="Remove!" (click)="removeCategory(i)">clear</mat-icon>-->
+              <!--</div>-->
+            <!--</mat-list-item>-->
           </mat-list>
         </div>
       </div>
