@@ -13,7 +13,19 @@ export class ChooseImageDialogComponent {
   images: Array<{ checked: boolean, path: string }> = [];
 
   constructor(private imagesService: ImagesService, @Inject(MAT_DIALOG_DATA) public data: any) {
-    this.images = cloneDeep(data.images);
+    this.getImages();
+  }
+
+  getImages(): void {
+    this.imagesService.getImages().subscribe((response: any) => {
+      console.log(response);
+      this.images = response.map(function (image) {
+        return{
+          checked: false,
+          path: image,
+        };
+      });
+    });
   }
 
   choseImage(i) {
@@ -27,18 +39,20 @@ export class ChooseImageDialogComponent {
   }
 
   fileChange(event) {
-    let fileList: FileList = event.target.files;
-    if(fileList.length > 0) {
-      let file: File = fileList[0];
-      var form = new FormData();
-      form.append("photos", file);
+    const fileList: FileList = event.target.files;
+    if (fileList.length > 0) {
+      const file: File = fileList[0];
+      const form = new FormData();
+      form.append('photos', file);
       this.imagesService.uploadImage(form).subscribe(response => {
-        console.log(response);
+        this.getImages();
       });
     }
   }
 
   saveData(): Array<{ checked: boolean, path: string }> {
-    return this.images;
+    let findSelectedImage = cloneDeep(this.images);
+    findSelectedImage = findSelectedImage.filter(image => image.checked ? image.path : '');
+    return findSelectedImage.length !== 0 ? [findSelectedImage[0].path] : undefined;
   }
 }
