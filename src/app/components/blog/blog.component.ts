@@ -55,6 +55,7 @@ export class BlogComponent implements AfterViewInit {
   ngAfterViewInit() {
     this.getBlogs();
     this.getImages();
+    this.getTags();
   }
 
   getBlogs(): void {
