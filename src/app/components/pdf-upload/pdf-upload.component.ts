@@ -39,11 +39,11 @@ export class PdfUploadComponent implements AfterViewInit {
   }
 
   fileChange(event) {
-    let fileList: FileList = event.target.files;
-    if(fileList.length > 0) {
-      let file: File = fileList[0];
-      var form = new FormData();
-      form.append("pdf", file);
+    const fileList: FileList = event.target.files;
+    if (fileList.length > 0) {
+      const file: File = fileList[0];
+      const form = new FormData();
+      form.append('pdf', file);
       this.pdfService.uploadPDF(form).subscribe(response => {
         console.log(response);
       });

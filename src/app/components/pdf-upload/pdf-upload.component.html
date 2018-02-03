@@ -6,7 +6,7 @@
     <mat-card class="add-card">
       <div class="glob_ds-card-form">
         <input type="file" (change)="fileChange($event)" placeholder="Upload file" accept=".pdf">
-        <a *ngIf="pdf.length !== 0" target="_blank" [href]="pdf[0]">PREVIEW PDF</a>
+        <a *ngIf="pdf.length !== 0" target="_blank" [href]="pdf[pdf.length - 1]">PREVIEW PDF</a>
       </div>
     </mat-card>
   </div>
