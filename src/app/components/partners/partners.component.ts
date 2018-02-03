@@ -41,6 +41,14 @@ export class PartnersComponent implements AfterViewInit {
     {
       value: 'leasing',
       viewValue: 'Lizing',
+    },
+    {
+      value: 'insurance',
+      viewValue: 'Insurance',
+    },
+    {
+      value: 'microcredit',
+      viewValue: 'Microcredit',
     }
   ];
 
