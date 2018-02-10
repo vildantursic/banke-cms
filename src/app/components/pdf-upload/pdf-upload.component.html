@@ -5,8 +5,16 @@
   <div class="blog-cards">
     <mat-card class="add-card">
       <div class="glob_ds-card-form">
-        <input type="file" (change)="fileChange($event)" placeholder="Upload file" accept=".pdf">
-        <a *ngIf="pdf.length !== 0" target="_blank" [href]="pdf[pdf.length - 1]">PREVIEW PDF</a>
+        <h3>Preview PDF</h3>
+        <input type="file" (change)="uploadPreview($event)" placeholder="Upload preview pdf" accept=".pdf">
+        <a *ngIf="pdfPreview.length !== 0" target="_blank" [href]="pdfPreview[pdfPreview.length - 1]">PREVIEW PDF</a>
+      </div>
+      <div class="glob_ds-card-form">
+        <h3>Full PDF</h3>
+        <input type="file" (change)="uploadFull($event)" placeholder="Upload full pdf" accept=".pdf">
+        <mat-input-container>
+          <input matInput placeholder="Full PDF" name="pdf" [(ngModel)]="pdfFull[pdfFull.length - 1]">
+        </mat-input-container>
       </div>
     </mat-card>
   </div>

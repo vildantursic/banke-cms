@@ -14,6 +14,7 @@ export class GeneralComponent implements AfterViewInit {
   newTag = '';
   confirmDialog;
   tags = [];
+  users = [];
 
   constructor(private systemService: SystemService,
               private dialog: MatDialog,
@@ -22,8 +23,13 @@ export class GeneralComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.getTags();
+    this.getUsers();
   }
-
+  getUsers() {
+    this.systemService.getUsers().subscribe((response: any) => {
+      this.users = response;
+    });
+  }
   getTags(): void {
     this.tags = [];
     this.systemService.getTags().subscribe((response: any) => {
@@ -80,5 +86,9 @@ export class GeneralComponent implements AfterViewInit {
   validateInsert(): boolean {
     return this.tags.length === 0 || this.tags.length >= 50;
   }
-
+  removeUser(email) {
+    this.systemService.removeUser(email).subscribe((response: any) => {
+      this.getUsers();
+    });
+  }
 }

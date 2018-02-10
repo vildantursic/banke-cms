@@ -39,7 +39,7 @@ export class SystemService {
    * @returns {Observable<any>}
    */
   removeUser(email): Observable<any> {
-    return this.service.delete(`admin/user/${email}`);
+    return this.service.delete(`subscribe/${email}`);
   }
 
   /**
@@ -67,5 +67,12 @@ export class SystemService {
    */
   editTerm(id, data): Observable<any> {
     return this.service.put(`admin/term/${id}`, data);
+  }
+  /**
+   * Get Users
+   * @returns {Observable<any>}
+   */
+  getUsers(): Observable<any> {
+    return this.service.get(`subscribe`);
   }
 }

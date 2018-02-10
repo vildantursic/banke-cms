@@ -27,8 +27,16 @@
               </mat-list>
             </div>
           </mat-tab>
-          <mat-tab label="SETTINGS">
-
+          <mat-tab label="USERS">
+            <mat-list>
+              <mat-list-item *ngFor="let user of users; let i = index">
+                {{user.email}}
+                <div class="ds-spacer"></div>
+                <div class="icon">
+                  <mat-icon mat-list-icon matTooltip="Remove!" (click)="removeUser(user.email)">clear</mat-icon>
+                </div>
+              </mat-list-item>
+            </mat-list>
           </mat-tab>
         </mat-tab-group>
       </div>

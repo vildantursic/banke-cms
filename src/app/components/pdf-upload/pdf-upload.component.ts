@@ -19,7 +19,8 @@ export class PdfUploadComponent implements AfterViewInit {
   addingMode = false;
   editMode = false;
 
-  pdf = [];
+  pdfFull = [];
+  pdfPreview = [];
 
   constructor(private pdfService: PdfService,
               private message: MessageService,
@@ -28,23 +29,41 @@ export class PdfUploadComponent implements AfterViewInit {
               private helper: Helpers) { }
 
   ngAfterViewInit() {
-    this.getPDF();
+    this.getPdfFull();
+    this.getPdfPreview();
   }
 
-  getPDF(): void {
-    this.pdfService.getPDF().subscribe((response: any) => {
+  getPdfFull(): void {
+    this.pdfService.getPDF('pdfFull').subscribe((response: any) => {
       console.log(response);
-      this.pdf = response;
+      this.pdfFull = response;
+    });
+  }
+  getPdfPreview(): void {
+    this.pdfService.getPDF('pdfPreview').subscribe((response: any) => {
+      console.log(response);
+      this.pdfPreview = response;
     });
   }
 
-  fileChange(event) {
+  uploadPreview(event) {
     const fileList: FileList = event.target.files;
     if (fileList.length > 0) {
       const file: File = fileList[0];
       const form = new FormData();
       form.append('pdf', file);
-      this.pdfService.uploadPDF(form).subscribe(response => {
+      this.pdfService.uploadPDF(form, 'pdfPreview').subscribe(response => {
+        console.log(response);
+      });
+    }
+  }
+  uploadFull(event) {
+    const fileList: FileList = event.target.files;
+    if (fileList.length > 0) {
+      const file: File = fileList[0];
+      const form = new FormData();
+      form.append('pdf', file);
+      this.pdfService.uploadPDF(form, 'pdfFull').subscribe(response => {
         console.log(response);
       });
     }
@@ -53,34 +72,35 @@ export class PdfUploadComponent implements AfterViewInit {
   /**
    * Opens save item confirmation dialog and reacts on selected dialog option (save / cancel)
    */
-  saveConfirm(): void {
-    this.confirmDialog = this.dialog.open(ConfirmationDialogComponent);
-
-    this.confirmDialog.afterClosed().subscribe(result => {
-      if (result) {
-        this.saveItem();
-      }
-    });
-  }
+  // saveConfirm(): void {
+  //   this.confirmDialog = this.dialog.open(ConfirmationDialogComponent);
+  //
+  //   this.confirmDialog.afterClosed().subscribe(result => {
+  //     if (result) {
+  //       this.saveItem();
+  //     }
+  //   });
+  // }
 
   /**
    * Prepares data for saving and saves item
    */
-  saveItem(): void {
-
-    // this.newExercise.tags = this.helper.getSelectedTags(this.tags);
-    if (this.validateInsert()) {
-      this.message.show('Data is missing');
-    } else {
-
-      this.pdfService.uploadPDF(this.pdf).subscribe((response: any) => {
-        console.log(response);
-        this.message.show(response.hasOwnProperty('Message') ? response.Message : 'Error occurred');
-        this.getPDF();
-        this.deactivateAddingMode();
-      });
-    }
-  }
+  // saveItem(): void {
+  //
+  //   // this.newExercise.tags = this.helper.getSelectedTags(this.tags);
+  //   if (this.validateInsert()) {
+  //     this.message.show('Data is missing');
+  //   } else {
+  //
+  //     this.pdfService.uploadPDF(this.pdf).subscribe((response: any) => {
+  //       console.log(response);
+  //       this.message.show(response.hasOwnProperty('Message') ? response.Message : 'Error occurred');
+  //       this.getFullPdf();
+  //       this.getPreviewPdf();
+  //       this.deactivateAddingMode();
+  //     });
+  //   }
+  // }
 
   /**
    * Closes add new item form and shows item list

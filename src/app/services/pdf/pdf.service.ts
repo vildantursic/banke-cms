@@ -11,15 +11,15 @@ export class PdfService {
    * Gets pdf
    * @returns {Observable<any>}
    */
-  getPDF(): Observable<any> {
-    return this.service.get(`pdf`);
+  getPDF(type: string): Observable<any> {
+    return this.service.get(`pdf/${type}`);
   }
 
   /**
    * Upload data
    * @returns {Observable<any>}
    */
-  uploadPDF(data): Observable<any> {
-    return this.service.post(`pdf`, data);
+  uploadPDF(data, type: string): Observable<any> {
+    return this.service.post(`pdf/${type}`, data);
   }
 }
