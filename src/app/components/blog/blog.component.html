@@ -1,5 +1,10 @@
 <div class="blog-page">
   <app-sub-toolbar>
+    <div class="sub-toolbar-left">
+      <mat-input-container>
+        <input matInput placeholder="Search" [(ngModel)]="newBlog.suptitle">
+      </mat-input-container>
+    </div>
     <div sub-toolbar-right>
       <button mat-raised-button color="primary" (click)="addNewItem()" *ngIf="!addingMode">Add</button>
       <button mat-raised-button color="primary" (click)="saveConfirm()" *ngIf="addingMode">Save</button>
