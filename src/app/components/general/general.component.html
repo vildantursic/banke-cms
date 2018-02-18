@@ -28,15 +28,53 @@
             </div>
           </mat-tab>
           <mat-tab label="USERS">
-            <mat-list>
-              <mat-list-item *ngFor="let user of users; let i = index">
-                {{user.email}}
-                <div class="ds-spacer"></div>
-                <div class="icon">
-                  <mat-icon mat-list-icon matTooltip="Remove!" (click)="removeUser(user.email)">clear</mat-icon>
-                </div>
-              </mat-list-item>
-            </mat-list>
+            <div class="glob_ds-card-form">
+              <mat-input-container style="width: 30%">
+                <input matInput #emailName maxlength="50" placeholder="Email" name="name" [(ngModel)]="newUser.email">
+                <mat-hint align="end">{{emailName.value.length}} / 50</mat-hint>
+              </mat-input-container>
+              <mat-input-container style="width: 30%">
+                <input matInput #name maxlength="50" placeholder="Name and Surname" name="name" [(ngModel)]="newUser.nameAndSurname">
+                <mat-hint align="end">{{name.value.length}} / 50</mat-hint>
+              </mat-input-container>
+              <mat-input-container style="width: 30%">
+                <input matInput #address maxlength="50" placeholder="Address" name="name" [(ngModel)]="newUser.address">
+                <mat-hint align="end">{{address.value.length}} / 50</mat-hint>
+              </mat-input-container>
+              <button mat-raised-button color="warn" (click)="addUser()">Add User</button>
+
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Email</th>
+                    <th>Name & Surname</th>
+                    <th>Address</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let user of users; let i = index">
+                    <td>{{user.email}}</td>
+                    <td>{{user.nameAndSurname}}</td>
+                    <td>{{user.address}}</td>
+                    <td>
+                      <div class="delete-section">
+                        <mat-icon mat-list-icon matTooltip="Remove!" (click)="removeUser(user.email)">clear</mat-icon>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <!--<mat-list>-->
+                <!--<mat-list-item *ngFor="let user of users; let i = index">-->
+                  <!--{{user.email}} {{user.nameAndSurname}} {{user.address}}-->
+                  <!--<div class="ds-spacer"></div>-->
+                  <!--<div class="icon">-->
+                    <!--<mat-icon mat-list-icon matTooltip="Remove!" (click)="removeUser(user.email)">clear</mat-icon>-->
+                  <!--</div>-->
+                <!--</mat-list-item>-->
+              <!--</mat-list>-->
+            </div>
           </mat-tab>
         </mat-tab-group>
       </div>

@@ -12,7 +12,14 @@ import {MessageService} from '../../services/utilities/message/message.service';
 export class GeneralComponent implements AfterViewInit {
 
   newTag = '';
+  newUser = {
+    email: '',
+    nameAndSurname: '',
+    address: ''
+  }
+
   confirmDialog;
+  confirmUserDialog;
   tags = [];
   users = [];
 
@@ -74,6 +81,28 @@ export class GeneralComponent implements AfterViewInit {
     }
   }
 
+  addConfirm() {
+    this.confirmUserDialog = this.dialog.open(ConfirmationDialogComponent);
+
+    this.confirmUserDialog.afterClosed().subscribe(result => {
+      if (result) {
+        this.saveItem();
+      }
+    });
+  }
+
+  addUser() {
+    if (this.validateUserInsert()) {
+      this.message.show('Data is missing');
+    } else {
+
+      this.systemService.insertUser(this.newUser).subscribe((response: any) => {
+        this.message.show(response.hasOwnProperty('Message') ? response.Message : 'Error occurred');
+        this.getUsers();
+      });
+    }
+  }
+
   addTag(): void {
     this.tags.push(this.newTag);
 
@@ -86,6 +115,12 @@ export class GeneralComponent implements AfterViewInit {
   validateInsert(): boolean {
     return this.tags.length === 0 || this.tags.length >= 50;
   }
+  validateUserInsert(): boolean {
+    return this.newUser.email === '' ||
+           this.newUser.nameAndSurname === '' ||
+           this.newUser.address === '';
+  }
+
   removeUser(email) {
     this.systemService.removeUser(email).subscribe((response: any) => {
       this.getUsers();

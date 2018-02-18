@@ -1,16 +1,22 @@
 <div class="content">
   <mat-dialog-content>
     <div>
-      <input type="file" (change)="fileChange($event)" placeholder="Upload file" accept=".jpg,.jpeg,.png">
+      <input [disabled]="imageName === ''" type="file" (change)="fileChange($event)" placeholder="Upload file" accept=".jpg,.jpeg,.png">
+      <mat-input-container class="ds-full-width">
+        <input matInput #name maxlength="50" placeholder="Image name" name="name" required [(ngModel)]="imageName">
+        <mat-hint align="end">{{name.value.length}} / 50</mat-hint>
+      </mat-input-container>
+      <button mat-raised-button color="warn" (click)="saveImage()">Save image</button>
     </div>
 
     <div class="images-from-server">
       <div *ngFor="let image of images; let i = index" class="image-block">
         <div class="checkbox-section">
+          <button mat-raised-button color="warn" (click)="deleteImage(image)">Delete</button>
           <mat-checkbox [(ngModel)]="image.checked" (change)="choseImage(i)">Check me!</mat-checkbox>
         </div>
         <div class="image-section">
-          <img [src]="image.path" alt="">
+          <img [src]="image.location + image.file" alt="">
         </div>
       </div>
     </div>

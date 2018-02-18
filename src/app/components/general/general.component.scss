@@ -14,3 +14,33 @@
 .ds-spacer {
   flex: 1 1 auto;
 }
+
+// table design
+.table {
+  width: 100%;
+  height: auto;
+
+  thead {
+    tr {
+      th {
+        background: #03A9F4;
+      }
+    }
+  }
+  tbody {
+    tr {
+      td {
+        border: solid 1px #cdcdcd;
+        height: 20px;
+        padding: 0 5px;
+      }
+    }
+  }
+}
+
+.delete-section {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

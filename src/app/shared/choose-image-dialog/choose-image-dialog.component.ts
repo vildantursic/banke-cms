@@ -1,7 +1,7 @@
 import {Component, Inject} from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material';
 import { cloneDeep } from 'lodash';
-import {ImagesService} from "../../services/images/images.service";
+import { ImagesService } from '../../services/images/images.service';
 
 @Component({
   selector: 'app-choose-image-dialog',
@@ -11,6 +11,8 @@ import {ImagesService} from "../../services/images/images.service";
 export class ChooseImageDialogComponent {
 
   images: Array<{ checked: boolean, path: string }> = [];
+  imageName = '';
+  form = new FormData();
 
   constructor(private imagesService: ImagesService, @Inject(MAT_DIALOG_DATA) public data: any) {
     this.getImages();
@@ -18,13 +20,20 @@ export class ChooseImageDialogComponent {
 
   getImages(): void {
     this.imagesService.getImages().subscribe((response: any) => {
-      console.log(response);
-      this.images = response.map(function (image) {
-        return{
-          checked: false,
-          path: image,
-        };
+      this.images = response;
+      this.images.map(image => {
+        Object.assign(image, {
+          checked: false
+        });
+        return image;
       });
+    });
+  }
+
+  deleteImage(image) {
+    this.imagesService.deleteImage(image.file).subscribe((response: any) => {
+      console.log(response);
+      this.getImages();
     });
   }
 
@@ -42,9 +51,14 @@ export class ChooseImageDialogComponent {
     const fileList: FileList = event.target.files;
     if (fileList.length > 0) {
       const file: File = fileList[0];
-      const form = new FormData();
-      form.append('photos', file);
-      this.imagesService.uploadImage(form).subscribe(response => {
+      this.form.append('photos', file);
+    }
+  }
+
+  saveImage() {
+    if (this.imageName !== '') {
+      this.imagesService.uploadImage(this.form, this.imageName).subscribe(response => {
+        console.log(response);
         this.getImages();
       });
     }
@@ -52,7 +66,7 @@ export class ChooseImageDialogComponent {
 
   saveData(): Array<{ checked: boolean, path: string }> {
     let findSelectedImage = cloneDeep(this.images);
-    findSelectedImage = findSelectedImage.filter(image => image.checked ? image.path : '');
-    return findSelectedImage.length !== 0 ? [findSelectedImage[0].path] : undefined;
+    findSelectedImage = findSelectedImage.filter(image => image.checked ? image.location + image.file : '');
+    return findSelectedImage.length !== 0 ? [findSelectedImage[0].location + findSelectedImage[0].file] : undefined;
   }
 }

@@ -18,10 +18,11 @@ export class ImagesService {
   /**
    * Upload image
    * @param data
+   * @param name
    * @returns {Observable<any>}
    */
-  uploadImage(data): Observable<any> {
-    return this.service.post(`images/upload`, data);
+  uploadImage(data, name): Observable<any> {
+    return this.service.post(`images/upload/${name}`, data);
   }
 
   /**
@@ -30,6 +31,6 @@ export class ImagesService {
    * @returns {Observable<any>}
    */
   deleteImage(file): Observable<any> {
-    return this.service.delete(`images`, file);
+    return this.service.delete(`images/${file}`);
   }
 }

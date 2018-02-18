@@ -68,11 +68,21 @@ export class SystemService {
   editTerm(id, data): Observable<any> {
     return this.service.put(`admin/term/${id}`, data);
   }
+
   /**
    * Get Users
    * @returns {Observable<any>}
    */
   getUsers(): Observable<any> {
     return this.service.get(`subscribe`);
+  }
+
+  /**
+   * Insert User
+   * @param data
+   * @returns {Observable<any>}
+   */
+  insertUser(data): Observable<any> {
+    return this.service.post(`subscribe`, data);
   }
 }
